@@ -20,7 +20,7 @@ class BoissonController extends Controller
      */
     public function create()
     {
-        //
+        return view('boissons.create');
     }
 
     /**
@@ -29,7 +29,30 @@ class BoissonController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'nom' => 'required',
+            'prix' => 'required|numeric',
+            'categorie' => 'required|in:alcoolisee,sucree',
+        ]);
+
+        Boisson::create($request->all());
+
+        return back()->with('success', 'Boisson ajoutée');
     }
+
+    // AFFICHAGE DES BOISSONS
+    public function alcool()
+    {
+        $boissons = Boisson::where('categorie', 'alcoolisee')->get();
+        return view('menus.boissons_alcool', compact('boissons'));
+    }
+
+    public function sucree()
+    {
+        $boissons = Boisson::where('categorie', 'sucree')->get();
+        return view('menus.boissons_sucrees', compact('boissons'));
+    }
+
 
     /**
      * Display the specified resource.

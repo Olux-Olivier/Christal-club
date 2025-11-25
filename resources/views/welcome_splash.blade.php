@@ -24,7 +24,7 @@
   <script>
     // Rediriger après 2 secondes
     setTimeout(function () {
-      window.location.href = "{{ route('plats') }}";
+      window.location.href = "{{ route('menus.plats.plat') }}";
     }, 2000);
   </script>
 

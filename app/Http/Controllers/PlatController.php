@@ -20,7 +20,7 @@ class PlatController extends Controller
      */
     public function create()
     {
-        //
+        return view('plats.create');
     }
 
     /**
@@ -28,8 +28,31 @@ class PlatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nom' => 'required',
+            'prix' => 'required|numeric',
+            'categorie' => 'required|in:plat,autres_plats',
+        ]);
+
+        Plat::create($request->all());
+
+        return back()->with('success', 'Plat ajouté avec succès');
     }
+
+    // AFFICHAGE D'UN PLAT
+
+    public function plats()
+    {
+        $plats = Plat::where('categorie', 'plat')->get();
+        return view('menus.plats', compact('plats'));
+    }
+
+    public function autresPlats()
+    {
+        $plats = Plat::where('categorie', 'autres_plats')->get();
+        return view('menus.autres_plats', compact('plats'));
+    }
+
 
     /**
      * Display the specified resource.
