@@ -28,17 +28,34 @@ class BoissonController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validation
         $request->validate([
             'nom' => 'required',
             'prix' => 'required|numeric',
             'categorie' => 'required|in:alcoolisee,sucree',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048'
         ]);
 
-        Boisson::create($request->all());
+        // Initialiser imageName
+        $imageName = null;
 
-        return back()->with('success', 'Boisson ajoutée');
+        // Sauvegarde de l'image si elle existe
+        if ($request->hasFile('image')) {
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->storeAs('boissons', $imageName, 'public');
+        }
+
+        // Création de la boisson
+        Boisson::create([
+            'nom' => $request->nom,
+            'prix' => $request->prix,
+            'categorie' => $request->categorie,
+            'image' => $imageName,
+        ]);
+
+        return back()->with('success', 'Boisson ajoutée avec succès !');
     }
+
 
     // AFFICHAGE DES BOISSONS
     public function alcool()
@@ -49,9 +66,11 @@ class BoissonController extends Controller
 
     public function sucree()
     {
-        $boissons = Boisson::where('categorie', 'sucree')->get();
+        // Récupère les boissons sucrées paginées
+        $boissons = Boisson::where('categorie', 'sucree')->paginate(9); // 9 par page
         return view('menus.boissons_sucrees', compact('boissons'));
     }
+
 
 
     /**

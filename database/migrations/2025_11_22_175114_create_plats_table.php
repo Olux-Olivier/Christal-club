@@ -16,6 +16,7 @@ return new class extends Migration
                 $table->string('nom');
                 $table->decimal('prix', 8, 2);
                 $table->enum('categorie', ['plat', 'autres_plats']);
+                $table->string('image');
                 $table->timestamps();
         });
     }

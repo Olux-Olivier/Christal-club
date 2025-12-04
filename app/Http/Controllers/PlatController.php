@@ -7,43 +7,54 @@ use Illuminate\Http\Request;
 
 class PlatController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('plats.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
             'nom' => 'required',
             'prix' => 'required|numeric',
             'categorie' => 'required|in:plat,autres_plats',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048'
         ]);
 
-        Plat::create($request->all());
+        // Initialiser imageName pour éviter l'erreur
+        $imageName = null;
 
-        return back()->with('success', 'Plat ajouté avec succès');
+        // sauvegarde de l'image
+        if ($request->hasFile('image')) {
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->storeAs('plats', $imageName, 'public');
+        }
+
+
+        Plat::create([
+            'nom' => $request->nom,
+            'prix' => $request->prix,
+            'categorie' => $request->categorie,
+            'image' => $imageName,
+        ]);
+
+        return back()->with('success', 'Plat ajouté avec succès !');
     }
+
+
+
 
     // AFFICHAGE D'UN PLAT
 
     public function plats()
     {
-        $plats = Plat::where('categorie', 'plat')->get();
+        $plats = Plat::where('categorie', 'plat')->paginate(9);
         return view('menus.plats', compact('plats'));
     }
 

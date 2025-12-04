@@ -10,7 +10,7 @@ use App\Http\Controllers\BoissonController;
 
 Route::get('/', function () {
     return view('welcome_splash');
-});
+})->name('welcome');
 
 Route::get('/menu/plats', function () {
     return view('menus.plats');
