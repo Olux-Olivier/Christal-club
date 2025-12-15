@@ -58,11 +58,12 @@ class BoissonController extends Controller
 
 
     // AFFICHAGE DES BOISSONS
-    public function alcool()
+   public function alcool()
     {
-        $boissons = Boisson::where('categorie', 'alcoolisee')->get();
+        $boissons = Boisson::where('categorie', 'alcoolisee')->paginate(9);
         return view('menus.boissons_alcool', compact('boissons'));
     }
+
 
     public function sucree()
     {
