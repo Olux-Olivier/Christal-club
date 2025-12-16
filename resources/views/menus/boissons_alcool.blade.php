@@ -23,10 +23,10 @@
 
         <!-- Bouton Retour -->
         <a href="{{ route('welcome') }}"
-           class="absolute top-4 right-4 px-6 py-2
-                  bg-white/20 backdrop-blur-xl border border-white/30
-                  rounded-full shadow-lg text-white font-semibold
-                  hover:bg-white/30 transition">
+            class="absolute top-4 right-4 z-50 px-6 py-2
+                    bg-white/20 backdrop-blur-xl border border-white/30
+                    rounded-full shadow-lg text-white font-semibold
+                    hover:bg-white/30 transition">
             Retour à l'accueil
         </a>
 
@@ -50,18 +50,21 @@
     <div class="flex flex-wrap justify-center gap-4 my-10">
 
         <a href="{{ route('menus.boissons.sucree') }}"
-           class="px-6 py-2 rounded-full
-                  bg-white/20 backdrop-blur-xl border border-white/30
-                  text-white font-semibold shadow hover:bg-white/30 transition">
-            Sucrées
-        </a>
+   class="px-6 py-2 rounded-full font-semibold shadow transition
+   {{ request()->routeIs('menus.boissons.sucree')
+        ? 'bg-white/30 backdrop-blur-xl border border-white/40 text-white'
+        : 'bg-white/10 backdrop-blur-xl border border-white/20 text-white hover:bg-white/20' }}">
+    Sucrées
+</a>
 
-        <a href="{{ route('menus.boissons.alcool') }}"
-           class="px-6 py-2 rounded-full
-                  bg-white/10 backdrop-blur-xl border border-white/20
-                  text-white font-semibold shadow hover:bg-white/20 transition">
-            Alcool
-        </a>
+<a href="{{ route('menus.boissons.alcool') }}"
+   class="px-6 py-2 rounded-full font-semibold shadow transition
+   {{ request()->routeIs('menus.boissons.alcool')
+        ? 'bg-white/30 backdrop-blur-xl border border-white/40 text-white'
+        : 'bg-white/10 backdrop-blur-xl border border-white/20 text-white hover:bg-white/20' }}">
+    Alcool
+</a>
+
     </div>
 
 
