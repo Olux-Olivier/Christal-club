@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Boisson;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class BoissonController extends Controller
 {
@@ -73,6 +75,22 @@ class BoissonController extends Controller
     }
 
 
+    // AFFICHAGE DES BOISSONS ADMIN
+   public function liste_alcool()
+    {
+        $boissons = Boisson::where('categorie', 'alcoolisee')->get();
+        return view('boissons.liste_alcool', compact('boissons'));
+    }
+
+
+    public function liste_sucree()
+    {
+        // Récupère les boissons sucrées paginées
+        $boissons = Boisson::where('categorie', 'sucree')->get();
+        return view('boissons.liste_sucree', compact('boissons'));
+    }
+
+
 
     /**
      * Display the specified resource.
@@ -87,7 +105,7 @@ class BoissonController extends Controller
      */
     public function edit(Boisson $boisson)
     {
-        //
+        return view('boissons.edit', compact('boisson'));
     }
 
     /**
@@ -95,7 +113,31 @@ class BoissonController extends Controller
      */
     public function update(Request $request, Boisson $boisson)
     {
-        //
+        //UPDATE
+
+         $request->validate([
+            'nom' => 'required',
+            'prix' => 'required|numeric',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048'
+        ]);
+
+        if ($request->hasFile('image')) {
+
+            if ($boisson->image && Storage::disk('public')->exists('boissons/'.$boisson->image)) {
+                Storage::disk('public')->delete('boissons/'.$boisson->image);
+            }
+
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->storeAs('boissons', $imageName, 'public');
+            $boisson->image = $imageName;
+        }
+
+        $boisson->update([
+            'nom' => $request->nom,
+            'prix' => $request->prix,
+        ]);
+
+        return redirect()->back()->with('success', 'Boisson modifiée avec succès');
     }
 
     /**
@@ -103,6 +145,12 @@ class BoissonController extends Controller
      */
     public function destroy(Boisson $boisson)
     {
-        //
+         if ($boisson->image && Storage::disk('public')->exists('boissons/'.$boisson->image)) {
+            Storage::disk('public')->delete('boissons/'.$boisson->image);
+        }
+
+        $boisson->delete();
+
+        return redirect()->back()->with('success', 'Boisson supprimée');
     }
 }

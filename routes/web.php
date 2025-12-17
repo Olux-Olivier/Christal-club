@@ -43,3 +43,25 @@ Route::get('/menus/boissons/alcool', [BoissonController::class, 'alcool'])->name
 Route::get('/menus/boissons/sucree', [BoissonController::class, 'sucree'])->name('menus.boissons.sucree');
 
 
+// GESTION  DES BOISSONS ADMIN
+
+Route::get('/gestion', function () {
+   return view('dashbord');
+});
+
+// LISTES
+Route::get('/gestion/boissons/alcool', [BoissonController::class, 'liste_alcool'])
+    ->name('boissons.liste_alcool');
+
+Route::get('/gestion/boissons/sucrees', [BoissonController::class, 'liste_sucree'])
+    ->name('boissons.liste_sucree');
+
+// ACTIONS
+Route::get('/boissons/{boisson}/edit', [BoissonController::class, 'edit'])
+    ->name('boissons.edit');
+
+Route::put('/boissons/{boisson}', [BoissonController::class, 'update'])
+    ->name('boissons.update');
+
+Route::delete('/boissons/{boisson}', [BoissonController::class, 'destroy'])
+    ->name('boissons.destroy');
