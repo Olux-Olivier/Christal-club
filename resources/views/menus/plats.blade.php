@@ -3,177 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plats - Le Christal Club</title>
+    <title>Chrystal-Club | Plats</title>
+
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Icônes -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Police -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-    <style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
 
+    <!-- STYLE GLASS (IDENTIQUE AUX BOISSONS) -->
+    <style>
         body {
             font-family: 'Poppins', sans-serif;
         }
-        /* Fade-in général */
-        .fade {
-            opacity: 0;
-            animation: fadeIn 1.2s ease forwards;
-        }
-        @keyframes fadeIn { to { opacity: 1; } }
 
-        /* Animation cartes */
-        .card-anim {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideFade .8s ease forwards;
+        .glass {
+            background: linear-gradient(
+                135deg,
+                rgba(255,255,255,0.12),
+                rgba(255,255,255,0.02)
+            );
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.18);
         }
-        @keyframes slideFade {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .overlay-class {
-            pointer-events: none;
-        }
-
     </style>
 </head>
 
-<body class="bg-gray-200 text-gray-900 relative">
+<body class="font-poppins bg-gradient-to-br from-black via-gray-900 to-black text-white min-h-screen">
 
-    <!-- IMAGE ARRIÈRE PLAN FIXE -->
-    <div class="fixed inset-0 bg-cover bg-center -z-10"
-         style="background-image: url('https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg');
-                filter: brightness(0.6);">
-    </div>
+<!-- HEADER -->
+<header class="border-b border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 
-    <!-- OVERLAY POUR MIEUX LIRE -->
-    <div class="fixed inset-0 bg-black/30 -z-10"></div>
+        <h1 class="text-xl font-bold tracking-wider">
+            Chrystal<span class="text-blue-500">-Club</span>
+        </h1>
 
-
-    <!-- BANNIERE PRINCIPALE -->
-    <div class="relative w-full h-64 bg-center fade"
-         style="animation-delay:.1s;">
-
-        <!-- Bouton retour -->
-       <a href="{{ route('welcome') }}"
-            class="absolute top-4 right-4 px-6 py-2
-                    bg-white/20 backdrop-blur-xl border border-white/40
-                    rounded-full shadow-lg text-white font-semibold
-                    hover:bg-white/30 transition z-50 fade"
-            style="animation-delay:.4s;">
-                Retour à l'accueil
+        <a href="{{ route('welcome') }}"
+           class="px-4 py-2 rounded-lg bg-gray-800 border border-gray-700
+                  hover:bg-gray-700 transition text-sm font-semibold">
+            Retour
         </a>
-
-
-        <!-- Titre -->
-        <div class="absolute inset-0 flex items-center justify-center fade" style="animation-delay:.2s;">
-            <h1 class="text-4xl md:text-5xl font-bold text-white drop-shadow-xl">
-                Nos Plats
-            </h1>
-        </div>
     </div>
+</header>
 
+<!-- TOOLBAR (IDENTIQUE AUX BOISSONS) -->
+<section class="max-w-7xl mx-auto px-6 py-10">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
 
-    <!-- NAVIGATION CATEGORIES -->
-    <div class="flex flex-wrap justify-center gap-4 my-10 fade" style="animation-delay:.6s;">
+        <div class="flex items-center gap-4">
+            <span class="material-icons text-4xl text-blue-400">
+                restaurant
+            </span>
 
-        <a href="{{ route('menus.plats.plat') }}"
-           class="px-6 py-2 rounded-full
-                  bg-white/20 backdrop-blur-xl border border-white/30
-                  text-white font-semibold shadow-md
-                  hover:bg-white/30 transition">
-            Plats
-        </a>
-
-        <a href="{{ route('menus.boissons.sucree') }}"
-           class="px-6 py-2 rounded-full
-                  bg-white/10 backdrop-blur-xl border border-white/20
-                  text-white font-semibold shadow-md
-                  hover:bg-white/20 transition">
-            Boissons
-        </a>
-
-    </div>
-
-
-    <!-- CONTENU PRINCIPAL -->
-    <div class="max-w-7xl mx-auto px-4 md:px-8 mt-10 mb-16">
-
-        <!-- GRILLE DES PLATS -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-            @foreach($plats as $index => $item)
-            <div class="bg-white/15 backdrop-blur-xl border border-white/20
-                        shadow-xl rounded-2xl overflow-hidden
-                        transform hover:scale-[1.03] hover:shadow-2xl transition duration-300
-                        card-anim"
-                 style="animation-delay: {{ 0.2 + ($index * 0.1) }}s;">
-
-                <!-- Image -->
-                <div class="h-44 bg-cover bg-center"
-                     style="background-image: url('{{ asset('storage/plats/' . $item->image) }}');">
-                </div>
-
-                <!-- Contenu -->
-                <div class="p-5">
-                    <h3 class="text-2xl font-bold text-yellow-300 mb-1 drop-shadow-sm">
-                        {{ $item->nom }}
-                    </h3>
-
-                    <p class="text-white text-lg font-medium">
-                        {{ number_format($item->prix, 0) }} FC
-                    </p>
-                </div>
-
+            <div>
+                <h2 class="text-3xl font-extrabold tracking-wide">
+                    Nos Plats
+                </h2>
+                <p class="text-gray-400 text-sm mt-1">
+                    Cuisine du Chrystal-Club
+                </p>
             </div>
-            @endforeach
-
         </div>
 
-        <!-- PAGINATION -->
-        <div class="mt-10 mb-10 fade text-white" style="animation-delay:1.2s;">
-            {{ $plats->links() }}
+        <div class="flex flex-wrap gap-3">
+            <a href="{{ route('menus.boissons.sucree') }}"
+               class="px-5 py-2 rounded-xl font-semibold border
+                      bg-gray-800 border-gray-700 hover:bg-gray-700 transition">
+                Boissons
+            </a>
         </div>
 
     </div>
+</section>
 
-    <!-- Footer -->
-<footer class="mt-20 bg-white/20 backdrop-blur-2xl border-t border-white/40 shadow-xl">
-    <div class="max-w-7xl mx-auto px-6 py-12 text-center">
+<!-- CONTENU MESSAGE -->
+<main class="max-w-4xl mx-auto px-6 mb-24">
 
-        <h2 class="text-3xl font-bold text-gray-900 tracking-wide drop-shadow">
-            Le Christal Club
-        </h2>
+    <div class="glass rounded-3xl shadow-2xl p-10 md:p-14 text-center">
 
-        <p class="text-gray-800 mt-2 text-sm font-medium">
-            Ambiance • Élégance • Excellence
-        </p>
-
-        <!-- Icônes -->
-        <div class="flex justify-center gap-7 mt-6">
-
-            <a href="#" class="text-gray-900 hover:text-blue-700 transition">
-                <i data-lucide="facebook" class="w-7 h-7"></i>
-            </a>
-
-            <a href="#" class="text-gray-900 hover:text-pink-600 transition">
-                <i data-lucide="instagram" class="w-7 h-7"></i>
-            </a>
-
-            <!-- Icône TikTok personnalisée (SVG) -->
-            <a href="#" class="text-gray-900 hover:text-black transition">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 fill-gray-900 hover:fill-black transition"
-                     viewBox="0 0 24 24">
-                    <path d="M12.4 2h3.1c.1 1.1.6 2.1 1.3 2.9.8.8 1.8 1.2 3 1.3v3.1c-1.3 0-2.5-.3-3.6-.8v7.3c0 2.1-.7 3.8-2.1 5-1.4 1.2-3.2 1.8-5.4 1.8-1.4 0-2.6-.3-3.7-.8s-2-.9-2.6-1.5l1.6-2.6c.4.4 1 .7 1.8 1 .8.3 1.5.4 2.1.4 1.1 0 2-.3 2.7-.9.7-.6 1.1-1.5 1.1-2.7V6.8c-.9.1-1.8 0-2.7-.4S9 5.6 8.4 4.9L12.4 2z"/>
-                </svg>
-            </a>
-
+        <!-- Icône -->
+        <div class="flex justify-center mb-6">
+            <i data-lucide="info" class="w-14 h-14 text-blue-400"></i>
         </div>
 
-       <p class="mt-6 text-black/70 text-xs">
-            © {{ date('Y') }} Le Christal Club — Tous droits réservés.
+        <!-- Message -->
+        <h3 class="text-2xl md:text-3xl font-bold mb-6">
+            Les plats ne sont pas encore disponibles
+        </h3>
+
+        <p class="text-gray-300 text-lg leading-relaxed mb-10">
+            Notre équipe travaille actuellement à la préparation d’un menu
+            culinaire à la hauteur de l’expérience <strong>Chrystal-Club</strong>.
+            <br><br>
+            En attendant, nous vous invitons à profiter pleinement de notre
+            sélection raffinée de boissons.
         </p>
 
+        <!-- CTA -->
+        <a href="{{ route('menus.boissons.sucree') }}"
+           class="inline-flex items-center gap-3 px-8 py-3 rounded-full
+                  bg-gradient-to-r from-blue-600 to-indigo-600
+                  hover:from-indigo-600 hover:to-blue-600
+                  transition font-semibold shadow-lg">
+            <i data-lucide="wine" class="w-5 h-5"></i>
+            Découvrir les boissons
+        </a>
+
     </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="border-t border-gray-800 py-12 text-center">
+
+    <h3 class="text-2xl font-bold tracking-wide">
+        Chrystal<span class="text-blue-500">-Club</span>
+    </h3>
+
+    <p class="text-gray-400 text-sm mt-2">
+        Ambiance • Élégance • Excellence
+    </p>
+
+    <p class="mt-6 text-gray-500 text-xs">
+        © {{ date('Y') }} Chrystal-Club — Tous droits réservés
+    </p>
 </footer>
 
 <script>

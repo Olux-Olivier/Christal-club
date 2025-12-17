@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Boisson;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class BoissonController extends Controller
 {
@@ -30,74 +31,84 @@ class BoissonController extends Controller
      */
     public function store(Request $request)
     {
-        // Validation
         $request->validate([
-            'nom' => 'required',
+            'nom' => 'required|string|max:255',
             'prix' => 'required|numeric',
             'categorie' => 'required|in:alcoolisee,sucree',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048'
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:20048',
         ]);
 
-        // Initialiser imageName
         $imageName = null;
+        $thumbName = null;
 
-        // Sauvegarde de l'image si elle existe
         if ($request->hasFile('image')) {
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->storeAs('boissons', $imageName, 'public');
+
+            $imageFile = $request->file('image');
+            $baseName  = time();
+
+            /** -------------------------
+             *  Image originale (HD)
+             *  ------------------------- */
+            $imageName = "original_{$baseName}." . $imageFile->extension();
+            $imageFile->storeAs('boissons', $imageName, 'public');
+
+            /** -------------------------
+             *  Thumbnail (CROP PRO)
+             *  ------------------------- */
+            $manager = new ImageManager(new Driver());
+
+            $thumbnail = $manager
+                ->read($imageFile->getPathname())
+                ->cover(400, 600) // format maîtrisé (plus d’images trop longues)
+                ->toJpeg(70);
+
+            $thumbName = "thumb_{$baseName}.jpg";
+
+            Storage::disk('public')->put(
+                "boissons/{$thumbName}",
+                $thumbnail
+            );
         }
 
-        // Création de la boisson
         Boisson::create([
-            'nom' => $request->nom,
-            'prix' => $request->prix,
+            'nom'       => $request->nom,
+            'prix'      => $request->prix,
             'categorie' => $request->categorie,
-            'image' => $imageName,
+            'image'     => $imageName,
+            'thumbnail' => $thumbName,
         ]);
 
         return back()->with('success', 'Boisson ajoutée avec succès !');
     }
 
-
-    // AFFICHAGE DES BOISSONS
-   public function alcool()
+    /**
+     * AFFICHAGE DES BOISSONS CLIENT
+     */
+    public function alcool()
     {
         $boissons = Boisson::where('categorie', 'alcoolisee')->paginate(9);
         return view('menus.boissons_alcool', compact('boissons'));
     }
 
-
     public function sucree()
     {
-        // Récupère les boissons sucrées paginées
-        $boissons = Boisson::where('categorie', 'sucree')->paginate(9); // 9 par page
+        $boissons = Boisson::where('categorie', 'sucree')->paginate(9);
         return view('menus.boissons_sucrees', compact('boissons'));
     }
 
-
-    // AFFICHAGE DES BOISSONS ADMIN
-   public function liste_alcool()
+    /**
+     * AFFICHAGE DES BOISSONS ADMIN
+     */
+    public function liste_alcool()
     {
         $boissons = Boisson::where('categorie', 'alcoolisee')->get();
         return view('boissons.liste_alcool', compact('boissons'));
     }
 
-
     public function liste_sucree()
     {
-        // Récupère les boissons sucrées paginées
         $boissons = Boisson::where('categorie', 'sucree')->get();
         return view('boissons.liste_sucree', compact('boissons'));
-    }
-
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Boisson $boisson)
-    {
-        //
     }
 
     /**
@@ -113,31 +124,54 @@ class BoissonController extends Controller
      */
     public function update(Request $request, Boisson $boisson)
     {
-        //UPDATE
-
-         $request->validate([
-            'nom' => 'required',
-            'prix' => 'required|numeric',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048'
+        $request->validate([
+            'nom'   => 'required|string|max:255',
+            'prix'  => 'required|numeric',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:20048',
         ]);
 
         if ($request->hasFile('image')) {
 
-            if ($boisson->image && Storage::disk('public')->exists('boissons/'.$boisson->image)) {
-                Storage::disk('public')->delete('boissons/'.$boisson->image);
-            }
+            /** Supprimer anciennes images */
+            Storage::disk('public')->delete([
+                "boissons/{$boisson->image}",
+                "boissons/{$boisson->thumbnail}",
+            ]);
 
-            $imageName = time().'.'.$request->image->extension();
-            $request->image->storeAs('boissons', $imageName, 'public');
-            $boisson->image = $imageName;
+            $imageFile = $request->file('image');
+            $baseName  = time();
+
+            /** Image HD */
+            $imageName = "original_{$baseName}." . $imageFile->extension();
+            $imageFile->storeAs('boissons', $imageName, 'public');
+
+            /** Thumbnail */
+            $manager = new ImageManager(new Driver());
+
+            $thumbnail = $manager
+                ->read($imageFile->getPathname())
+                ->cover(400, 600)
+                ->toJpeg(70);
+
+            $thumbName = "thumb_{$baseName}.jpg";
+
+            Storage::disk('public')->put(
+                "boissons/{$thumbName}",
+                $thumbnail
+            );
+
+            $boisson->update([
+                'image'     => $imageName,
+                'thumbnail' => $thumbName,
+            ]);
         }
 
         $boisson->update([
-            'nom' => $request->nom,
+            'nom'  => $request->nom,
             'prix' => $request->prix,
         ]);
 
-        return redirect()->back()->with('success', 'Boisson modifiée avec succès');
+        return back()->with('success', 'Boisson modifiée avec succès');
     }
 
     /**
@@ -145,12 +179,13 @@ class BoissonController extends Controller
      */
     public function destroy(Boisson $boisson)
     {
-         if ($boisson->image && Storage::disk('public')->exists('boissons/'.$boisson->image)) {
-            Storage::disk('public')->delete('boissons/'.$boisson->image);
-        }
+        Storage::disk('public')->delete([
+            "boissons/{$boisson->image}",
+            "boissons/{$boisson->thumbnail}",
+        ]);
 
         $boisson->delete();
 
-        return redirect()->back()->with('success', 'Boisson supprimée');
+        return back()->with('success', 'Boisson supprimée');
     }
 }

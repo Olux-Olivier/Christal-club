@@ -3,147 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boissons alcoolisées - Le Christal Club</title>
+    <title>Chrystal-Club | Boissons alcoolisées</title>
+
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Icônes -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Police -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- EFFET CRYSTAL ANIMÉ -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Base crystal */
+        .glass-crystal {
+            position: relative;
+            background: linear-gradient(
+                135deg,
+                rgba(255,255,255,0.12),
+                rgba(255,255,255,0.02)
+            );
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.18);
+            overflow: hidden;
+        }
+
+        /* Reflet animé */
+        .glass-crystal::before {
+            content: "";
+            position: absolute;
+            top: -60%;
+            left: -80%;
+            width: 60%;
+            height: 220%;
+            background: linear-gradient(
+                120deg,
+                transparent 35%,
+                rgba(255,255,255,0.35),
+                transparent 65%
+            );
+            transform: rotate(25deg);
+            animation: crystalSweep 7s linear infinite;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        /* Animation du balayage */
+        @keyframes crystalSweep {
+            0% {
+                left: -80%;
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.4;
+            }
+            50% {
+                opacity: 0.7;
+            }
+            85% {
+                opacity: 0.4;
+            }
+            100% {
+                left: 130%;
+                opacity: 0;
+            }
+        }
+
+        /* Décalage entre cards */
+        .glass-delay-1::before { animation-delay: 0s; }
+        .glass-delay-2::before { animation-delay: 1.8s; }
+        .glass-delay-3::before { animation-delay: 3.6s; }
+        .glass-delay-4::before { animation-delay: 5.4s; }
+    </style>
 </head>
 
-<body class="text-white">
+<body class="bg-gradient-to-br from-black via-gray-900 to-black text-white min-h-screen">
 
-    <!-- 🔥 Image d’arrière-plan fixe -->
-    <div class="fixed inset-0 bg-cover bg-center -z-10"
-         style="background-image: url('https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg');
-                filter: brightness(0.45);">
-    </div>
+<!-- HEADER -->
+<header class="border-b border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <h1 class="text-xl font-bold tracking-wider">
+            Chrystal<span class="text-blue-500">-Club</span>
+        </h1>
 
-    <!-- Overlay sombre pour lisibilité -->
-    <div class="fixed inset-0 bg-black/40 -z-10"></div>
-
-    <!-- SECTION IMAGE (Header) -->
-    <div class="relative w-full h-64 bg-center fade">
-
-        <!-- Bouton Retour -->
         <a href="{{ route('welcome') }}"
-            class="absolute top-4 right-4 z-50 px-6 py-2
-                    bg-white/20 backdrop-blur-xl border border-white/30
-                    rounded-full shadow-lg text-white font-semibold
-                    hover:bg-white/30 transition">
-            Retour à l'accueil
+           class="px-4 py-2 rounded-lg bg-gray-800 border border-gray-700
+                  hover:bg-gray-700 transition text-sm font-semibold">
+            Retour
         </a>
+    </div>
+</header>
 
-        <!-- Titre -->
-        <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/30">
-            <h1 class="text-4xl md:text-5xl font-bold drop-shadow-xl">
-                Boissons alcoolisées
-            </h1>
+<!-- TOOLBAR -->
+<section class="max-w-7xl mx-auto px-6 py-10">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+
+        <!-- TITRE -->
+        <div class="flex items-center gap-4">
+            <span class="material-icons text-4xl text-blue-400
+                         drop-shadow-[0_0_10px_rgba(59,130,246,0.7)]">
+                local_bar
+            </span>
+
+            <div>
+                <h2 class="text-3xl font-extrabold tracking-wide
+                           bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500
+                           bg-clip-text text-transparent">
+                    Boissons alcoolisées
+                </h2>
+                <p class="text-gray-400 text-sm mt-1">
+                    Sélection premium du Chrystal-Club
+                </p>
+            </div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="flex flex-wrap gap-3">
+            <a href="{{ route('menus.boissons.sucree') }}"
+               class="px-5 py-2 rounded-xl font-semibold border
+               {{ request()->routeIs('menus.boissons.sucree')
+                    ? 'bg-blue-600 border-blue-500'
+                    : 'bg-gray-800 border-gray-700 hover:bg-gray-700' }}">
+                Sucrées
+            </a>
+
+            <a href="{{ route('menus.boissons.alcool') }}"
+               class="px-5 py-2 rounded-xl font-semibold border
+               {{ request()->routeIs('menus.boissons.alcool')
+                    ? 'bg-blue-600 border-blue-500'
+                    : 'bg-gray-800 border-gray-700 hover:bg-gray-700' }}">
+                Alcoolisées
+            </a>
 
             <a href="{{ route('menus.plats.plat') }}"
-               class="px-5 py-2 rounded-full
-                      bg-white/20 backdrop-blur-xl border border-white/30
-                      text-white font-semibold shadow hover:bg-white/30 transition">
-                🍽️ Voir les plats
+               class="px-5 py-2 rounded-xl bg-gradient-to-r
+                      from-blue-600 to-indigo-600
+                      hover:from-indigo-600 hover:to-blue-600
+                      transition font-semibold">
+                Voir les plats
             </a>
         </div>
-    </div>
-
-
-    <!-- NAVIGATION DES CATÉGORIES -->
-    <div class="flex flex-wrap justify-center gap-4 my-10">
-
-        <a href="{{ route('menus.boissons.sucree') }}"
-   class="px-6 py-2 rounded-full font-semibold shadow transition
-   {{ request()->routeIs('menus.boissons.sucree')
-        ? 'bg-white/30 backdrop-blur-xl border border-white/40 text-white'
-        : 'bg-white/10 backdrop-blur-xl border border-white/20 text-white hover:bg-white/20' }}">
-    Sucrées
-</a>
-
-<a href="{{ route('menus.boissons.alcool') }}"
-   class="px-6 py-2 rounded-full font-semibold shadow transition
-   {{ request()->routeIs('menus.boissons.alcool')
-        ? 'bg-white/30 backdrop-blur-xl border border-white/40 text-white'
-        : 'bg-white/10 backdrop-blur-xl border border-white/20 text-white hover:bg-white/20' }}">
-    Alcool
-</a>
 
     </div>
+</section>
 
+<!-- CONTENU -->
+<main class="max-w-7xl mx-auto px-6 mb-20">
 
-    <!-- CONTENEUR GLOBAL -->
-    <div class="max-w-7xl mx-auto px-4 md:px-8 mt-10 mb-16">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
-        <!-- Grille des boissons -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        @forelse($boissons as $item)
+            <div class="glass-crystal glass-delay-{{ $loop->iteration % 4 + 1 }}
+                    rounded-2xl shadow-xl transition overflow-hidden">
 
-            @foreach($boissons as $item)
-            <div class="bg-white/15 backdrop-blur-xl border border-white/20
-                        shadow-xl rounded-2xl overflow-hidden
-                        transform hover:scale-[1.03] hover:shadow-2xl transition duration-300">
-
-                <!-- Image -->
-                @if($item->image)
-                <div class="h-40 bg-cover bg-center"
-                     style="background-image: url('{{ asset('storage/boissons/' . $item->image) }}');">
-                </div>
+                <!-- IMAGE -->
+                @if($item->thumbnail)
+                    <div class="h-48 w-full overflow-hidden">
+                        <img src="{{ asset('storage/boissons/'.$item->thumbnail) }}"
+                             alt="{{ $item->nom }}"
+                             class="w-full h-full object-cover"
+                             loading="lazy">
+                    </div>
+                @elseif($item->image)
+                    <div class="h-48 w-full overflow-hidden">
+                        <img src="{{ asset('storage/boissons/'.$item->image) }}"
+                             alt="{{ $item->nom }}"
+                             class="w-full h-full object-cover"
+                             loading="lazy">
+                    </div>
                 @else
-                <div class="h-40 bg-black/20 border-b border-white/20 flex items-center justify-center text-white/60">
-                    Pas d'image
-                </div>
+                    <div class="h-48 bg-gray-800 flex items-center justify-center text-gray-500">
+                        Aucune image
+                    </div>
                 @endif
 
-                <!-- Texte -->
-                <div class="p-5">
-                    <h3 class="text-xl font-bold text-yellow-300 mb-2 drop-shadow-sm">
+                <!-- TEXTE -->
+                <div class="p-6 flex items-center justify-between gap-4">
+                <span class="text-lg font-bold text-white">
+                    {{ number_format($item->prix, 0) }} $
+                </span>
+
+                    <h3 class="text-xl font-bold text-blue-300 text-right leading-tight">
                         {{ $item->nom }}
                     </h3>
-                    <p class="text-white font-medium">
-                        {{ number_format($item->prix, 0) }} $
-                    </p>
                 </div>
 
             </div>
-            @endforeach
-
-        </div>
-
-        <!-- Pagination -->
-        <div class="mt-10 text-white">
-            {{ $boissons->links() }}
-        </div>
+        @empty
+            <p class="col-span-full text-center text-gray-400">
+                Aucune boisson alcoolisée disponible
+            </p>
+        @endforelse
 
     </div>
 
-    <!-- Footer -->
-<footer class="mt-20 bg-white/30 backdrop-blur-xl border-t border-white/40 shadow-xl">
-    <div class="max-w-7xl mx-auto px-6 py-10 text-center">
-
-        <h2 class="text-2xl font-bold text-gray-900 drop-shadow">
-            Le Christal Club
-        </h2>
-
-        <p class="text-gray-800 mt-2 text-sm font-medium">
-            Ambiance • Élégance • Excellence
-        </p>
-
-        <div class="flex justify-center gap-6 mt-4">
-            <a href="#" class="text-gray-700 hover:text-black transition font-semibold">
-                Facebook
-            </a>
-            <a href="#" class="text-gray-700 hover:text-black transition font-semibold">
-                Instagram
-            </a>
-            <a href="#" class="text-gray-700 hover:text-black transition font-semibold">
-                WhatsApp
-            </a>
-        </div>
-
-        <p class="mt-6 text-gray-700 text-xs">
-            © {{ date('Y') }} Le Christal Club — Tous droits réservés.
-        </p>
-
+    <!-- PAGINATION -->
+    <div class="mt-12">
+        {{ $boissons->links() }}
     </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="border-t border-gray-800 py-12 text-center">
+    <h3 class="text-2xl font-bold tracking-wide">
+        Chrystal<span class="text-blue-500">-Club</span>
+    </h3>
+
+    <p class="text-gray-400 text-sm mt-2">
+        Ambiance • Élégance • Excellence
+    </p>
+
+    <div class="flex justify-center gap-8 mt-6">
+        <a href="#" class="hover:text-blue-500 transition">
+            <i data-lucide="facebook" class="w-6 h-6"></i>
+        </a>
+        <a href="#" class="hover:text-pink-500 transition">
+            <i data-lucide="instagram" class="w-6 h-6"></i>
+        </a>
+    </div>
+
+    <p class="mt-6 text-gray-500 text-xs">
+        © {{ date('Y') }} Chrystal-Club — Tous droits réservés
+    </p>
 </footer>
 
-
+<script>
+    lucide.createIcons();
+</script>
 
 </body>
 </html>
