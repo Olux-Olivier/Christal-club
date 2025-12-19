@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Chrystal-Club | Ajouter une boisson</title>
+    <title>Le Crystal-Club | Ajouter une boisson</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Tailwind CSS -->
@@ -30,12 +30,12 @@
 <header class="border-b border-gray-800">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <h1 class="text-2xl font-bold text-white tracking-wider">
-            Chrystal<span class="text-blue-500">-Club</span>
+            Le Crystal<span class="text-blue-500">-Club</span>
         </h1>
 
         <nav class="space-x-6 text-gray-300 text-sm">
-            <a href="#" class="hover:text-white transition">Dashboard</a>
-            <a href="#" class="hover:text-white transition">Boissons</a>
+            <a href="{{ route('dashbord') }}" class="hover:text-white transition">Dashboard</a>
+            <a href="{{ route('boissons.liste_sucree') }}" class="hover:text-white transition">Boissons</a>
             <a href="#" class="hover:text-white transition">Déconnexion</a>
         </nav>
     </div>
@@ -142,7 +142,7 @@
 <!-- Footer -->
 <footer class="border-t border-gray-800 mt-12">
     <div class="max-w-7xl mx-auto px-6 py-4 text-center text-gray-500 text-sm">
-        © {{ date('Y') }} Chrystal-Club — Tous droits réservés
+        © {{ date('Y') }} Le Crystal-Club — Tous droits réservés
     </div>
 </footer>
 

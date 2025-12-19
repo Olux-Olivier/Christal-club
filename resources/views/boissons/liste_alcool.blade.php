@@ -11,6 +11,9 @@
         <th>Actions</th>
     </tr>
 
+    <a href="{{ route('boissons.create') }}">Ajouter une boisson</a> <br>
+    <a href="{{ route('dashbord')}}">Dashboard</a>
+
     @foreach($boissons as $boisson)
     <tr>
         <td>{{ $boisson->nom }}</td>

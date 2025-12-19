@@ -29,7 +29,7 @@ Route::get('/plats/create', [PlatController::class, 'create']);
 Route::post('/plats/store', [PlatController::class, 'store'])->name('plats.store');
 
 // BOISSONS
-Route::get('/boissons/create', [BoissonController::class, 'create']);
+Route::get('/boissons/create', [BoissonController::class, 'create'])->name('boissons.create');
 Route::post('/boissons/store', [BoissonController::class, 'store'])->name('boissons.store');
 
 
@@ -47,7 +47,7 @@ Route::get('/menus/boissons/sucree', [BoissonController::class, 'sucree'])->name
 
 Route::get('/gestion', function () {
    return view('dashbord');
-});
+})->name('dashbord');
 
 // LISTES
 Route::get('/gestion/boissons/alcool', [BoissonController::class, 'liste_alcool'])

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chrystal-Club | Boissons alcoolisées</title>
+    <title>Le Crystal-Club | Boissons alcoolisées</title>
 
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -102,7 +102,7 @@
 <header class="border-b border-gray-800">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <h1 class="text-xl font-bold tracking-wider">
-            Chrystal<span class="text-blue-500">-Club</span>
+            Le Crystal<span class="text-blue-500">-Club</span>
         </h1>
 
         <a href="{{ route('welcome') }}"
@@ -131,7 +131,7 @@
                     Boissons alcoolisées
                 </h2>
                 <p class="text-gray-400 text-sm mt-1">
-                    Sélection premium du Chrystal-Club
+                    Sélection premium du Crystal-Club
                 </p>
             </div>
         </div>
@@ -199,7 +199,7 @@
                 <!-- TEXTE -->
                 <div class="p-6 flex items-center justify-between gap-4">
                 <span class="text-lg font-bold text-white">
-                    {{ number_format($item->prix, 0) }} $
+                    {{ number_format($item->prix, 0) }} Fc
                 </span>
 
                     <h3 class="text-xl font-bold text-blue-300 text-right leading-tight">
@@ -226,7 +226,7 @@
 <!-- FOOTER -->
 <footer class="border-t border-gray-800 py-12 text-center">
     <h3 class="text-2xl font-bold tracking-wide">
-        Chrystal<span class="text-blue-500">-Club</span>
+        Le Crystal<span class="text-blue-500">-Club</span>
     </h3>
 
     <p class="text-gray-400 text-sm mt-2">
@@ -243,7 +243,7 @@
     </div>
 
     <p class="mt-6 text-gray-500 text-xs">
-        © {{ date('Y') }} Chrystal-Club — Tous droits réservés
+        © {{ date('Y') }} Le Crystal-Club — Tous droits réservés
     </p>
 </footer>
 

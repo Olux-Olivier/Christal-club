@@ -115,7 +115,7 @@
                     0
                 </p>
 
-                <a href="#"
+                <a href="{{route('boissons.liste_sucree')}}"
                    class="inline-block mt-6 px-5 py-2 rounded-full
                           bg-white/20 backdrop-blur border border-white/30
                           font-semibold hover:bg-white/30 transition">
@@ -137,7 +137,7 @@
                     0
                 </p>
 
-                <a href="#"
+                <a href="{{route('boissons.liste_alcool')}}"
                    class="inline-block mt-6 px-5 py-2 rounded-full
                           bg-white/20 backdrop-blur border border-white/30
                           font-semibold hover:bg-white/30 transition">
