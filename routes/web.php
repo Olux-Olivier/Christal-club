@@ -1,12 +1,10 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PlatController;
 use App\Http\Controllers\BoissonController;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 
 Route::get('/', function () {
     return view('welcome_splash');
@@ -20,7 +18,7 @@ Route::get('/menu/boissons', function () {
     return view('menus.boissons');
 })->name('boissons');
 
-Route::get('/testqr', function () {
+Route::get('/chrystal-club-qr', function () {
     return view('testqr');
 });
 
@@ -29,7 +27,7 @@ Route::get('/plats/create', [PlatController::class, 'create']);
 Route::post('/plats/store', [PlatController::class, 'store'])->name('plats.store');
 
 // BOISSONS
-Route::get('/boissons/create', [BoissonController::class, 'create'])->name('boissons.create');
+    Route::get('/boissons/create', [BoissonController::class, 'create'])->name('boissons.create');
 Route::post('/boissons/store', [BoissonController::class, 'store'])->name('boissons.store');
 
 
@@ -43,11 +41,6 @@ Route::get('/menus/boissons/alcool', [BoissonController::class, 'alcool'])->name
 Route::get('/menus/boissons/sucree', [BoissonController::class, 'sucree'])->name('menus.boissons.sucree');
 
 
-// GESTION  DES BOISSONS ADMIN
-
-Route::get('/gestion', function () {
-   return view('dashbord');
-})->name('dashbord');
 
 // LISTES
 Route::get('/gestion/boissons/alcool', [BoissonController::class, 'liste_alcool'])
@@ -65,3 +58,6 @@ Route::put('/boissons/{boisson}', [BoissonController::class, 'update'])
 
 Route::delete('/boissons/{boisson}', [BoissonController::class, 'destroy'])
     ->name('boissons.destroy');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->name('dashboard');

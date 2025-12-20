@@ -2,179 +2,242 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard – Christal Club</title>
+    <title>Dashboard – Chrystal Club</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Google Font -->
+    <!-- Icônes -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Police -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- STYLE CRYSTAL -->
     <style>
         body {
             font-family: 'Poppins', sans-serif;
         }
 
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(25px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .glass-crystal {
+            position: relative;
+            background: linear-gradient(
+                135deg,
+                rgba(255,255,255,0.14),
+                rgba(255,255,255,0.03)
+            );
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255,255,255,0.18);
+            overflow: hidden;
         }
 
-        .fade-up {
-            animation: fadeUp 0.8s ease-out forwards;
+        .glass-crystal::before {
+            content: "";
+            position: absolute;
+            top: -60%;
+            left: -90%;
+            width: 60%;
+            height: 220%;
+            background: linear-gradient(
+                120deg,
+                transparent 35%,
+                rgba(255,255,255,0.4),
+                transparent 65%
+            );
+            transform: rotate(25deg);
+            animation: crystalSweep 8s linear infinite;
+            pointer-events: none;
         }
+
+        @keyframes crystalSweep {
+            0% { left: -90%; opacity: 0; }
+            20% { opacity: .5; }
+            50% { opacity: .8; }
+            80% { opacity: .5; }
+            100% { left: 130%; opacity: 0; }
+        }
+
+        .delay-1::before { animation-delay: 0s; }
+        .delay-2::before { animation-delay: 2s; }
+        .delay-3::before { animation-delay: 4s; }
+        .delay-4::before { animation-delay: 6s; }
     </style>
 </head>
 
-<body class="text-white">
+<body class="bg-gradient-to-br from-black via-gray-900 to-black text-white min-h-screen">
 
-    <!-- 🌌 Background -->
-    <div class="fixed inset-0 bg-cover bg-center -z-10"
-         style="background-image:url('https://images.pexels.com/photos/1589919/pexels-photo-1589919.jpeg');
-                filter: brightness(0.45);">
-    </div>
-    <div class="fixed inset-0 bg-black/40 -z-10"></div>
+<!-- HEADER -->
+<header class="border-b border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
 
-    <!-- HEADER -->
-    <header class="py-10 text-center fade-up">
-        <h1 class="text-4xl md:text-5xl font-bold drop-shadow-lg">
-            Dashboard – Christal Club
+        <h1 class="text-2xl font-bold tracking-wider">
+            Chrystal<span class="text-blue-500">-Club</span>
         </h1>
-        <p class="mt-3 text-white/80">
-            Gestion interne des menus
-        </p>
-    </header>
 
-    <!-- DASHBOARD -->
-    <main class="max-w-7xl mx-auto px-6 pb-20">
+        <span class="text-sm text-gray-400">
+            Dashboard interne
+        </span>
+    </div>
+</header>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+<section class="max-w-7xl mx-auto px-6 py-12">
+    <div class="flex items-center gap-4">
+        <span class="material-icons text-5xl text-blue-400
+                     drop-shadow-[0_0_12px_rgba(59,130,246,0.7)]">
+            dashboard
+        </span>
 
-            <!-- CARD -->
-            <div class="bg-white/15 backdrop-blur-xl border border-white/20
-                        rounded-2xl p-6 shadow-xl fade-up">
-                <h3 class="text-xl font-bold text-yellow-300">
-                    Nos plats
-                </h3>
-                <p class="mt-2 text-white/80 text-sm">
-                    Plats principaux
-                </p>
-
-                <p class="mt-6 text-4xl font-bold">
-                    0
-                </p>
-
-                <a href="#"
-                   class="inline-block mt-6 px-5 py-2 rounded-full
-                          bg-white/20 backdrop-blur border border-white/30
-                          font-semibold hover:bg-white/30 transition">
-                    Consulter
-                </a>
-            </div>
-
-            <!-- AUTRES PLATS -->
-            <div class="bg-white/15 backdrop-blur-xl border border-white/20
-                        rounded-2xl p-6 shadow-xl fade-up">
-                <h3 class="text-xl font-bold text-yellow-300">
-                    Autres plats
-                </h3>
-                <p class="mt-2 text-white/80 text-sm">
-                    Accompagnements & spécialités
-                </p>
-
-                <p class="mt-6 text-4xl font-bold">
-                    0
-                </p>
-
-                <a href="#"
-                   class="inline-block mt-6 px-5 py-2 rounded-full
-                          bg-white/20 backdrop-blur border border-white/30
-                          font-semibold hover:bg-white/30 transition">
-                    Consulter
-                </a>
-            </div>
-
-            <!-- BOISSONS SUCRÉES -->
-            <div class="bg-white/15 backdrop-blur-xl border border-white/20
-                        rounded-2xl p-6 shadow-xl fade-up">
-                <h3 class="text-xl font-bold text-blue-300">
-                    Boissons sucrées
-                </h3>
-                <p class="mt-2 text-white/80 text-sm">
-                    Jus, sodas & cocktails soft
-                </p>
-
-                <p class="mt-6 text-4xl font-bold">
-                    0
-                </p>
-
-                <a href="{{route('boissons.liste_sucree')}}"
-                   class="inline-block mt-6 px-5 py-2 rounded-full
-                          bg-white/20 backdrop-blur border border-white/30
-                          font-semibold hover:bg-white/30 transition">
-                    Consulter
-                </a>
-            </div>
-
-            <!-- BOISSONS ALCOOLISÉES -->
-            <div class="bg-white/15 backdrop-blur-xl border border-white/20
-                        rounded-2xl p-6 shadow-xl fade-up">
-                <h3 class="text-xl font-bold text-red-300">
-                    Boissons alcoolisées
-                </h3>
-                <p class="mt-2 text-white/80 text-sm">
-                    Bières, vins & spiritueux
-                </p>
-
-                <p class="mt-6 text-4xl font-bold">
-                    0
-                </p>
-
-                <a href="{{route('boissons.liste_alcool')}}"
-                   class="inline-block mt-6 px-5 py-2 rounded-full
-                          bg-white/20 backdrop-blur border border-white/30
-                          font-semibold hover:bg-white/30 transition">
-                    Consulter
-                </a>
-            </div>
-
-            <!-- SHISHA -->
-            <div class="bg-white/15 backdrop-blur-xl border border-white/20
-                        rounded-2xl p-6 shadow-xl fade-up">
-                <h3 class="text-xl font-bold text-purple-300">
-                    Shisha
-                </h3>
-                <p class="mt-2 text-white/80 text-sm">
-                    Parfums & options
-                </p>
-
-                <p class="mt-6 text-4xl font-bold">
-                    0
-                </p>
-
-                <a href="#"
-                   class="inline-block mt-6 px-5 py-2 rounded-full
-                          bg-white/20 backdrop-blur border border-white/30
-                          font-semibold hover:bg-white/30 transition">
-                    Consulter
-                </a>
-            </div>
-
+        <div>
+            <h2 class="text-4xl font-extrabold tracking-wide
+                       bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500
+                       bg-clip-text text-transparent">
+                Dashboard
+            </h2>
+            <p class="text-gray-400 mt-1">
+                Gestion interne des menus
+            </p>
         </div>
-    </main>
+    </div>
+</section>
 
-    <!-- FOOTER -->
-    <footer class="text-center py-10 text-white/70 text-sm">
-        © {{ date('Y') }} Le Christal Club — Gestion interne
-    </footer>
+<main class="max-w-7xl mx-auto px-6 pb-24">
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <!-- PLATS -->
+        <div class="glass-crystal delay-1 rounded-2xl p-7 shadow-xl">
+            <h3 class="text-xl font-bold text-yellow-300 flex items-center gap-2">
+                <i data-lucide="utensils"></i> Plats
+            </h3>
+
+            <p class="text-white/70 text-sm mt-2">
+                Plats principaux
+            </p>
+
+            <p class="mt-8 text-5xl font-bold">
+                {{ $platsCount }}
+            </p>
+
+            <a href="#"
+               class="inline-block mt-8 px-6 py-2 rounded-full
+                      bg-white/20 backdrop-blur border border-white/30
+                      hover:bg-white/30 transition font-semibold">
+                Consulter
+            </a>
+        </div>
+
+        <div class="glass-crystal delay-2 rounded-2xl p-7 shadow-xl">
+            <h3 class="text-xl font-bold text-yellow-200 flex items-center gap-2">
+                <i data-lucide="layers"></i> Autres plats
+            </h3>
+
+            <p class="text-white/70 text-sm mt-2">
+                Accompagnements & spécialités
+            </p>
+
+            <p class="mt-8 text-5xl font-bold">
+                0
+            </p>
+
+            <a href="#"
+               class="inline-block mt-8 px-6 py-2 rounded-full
+                      bg-white/20 backdrop-blur border border-white/30
+                      hover:bg-white/30 transition font-semibold">
+                Consulter
+            </a>
+        </div>
+
+        <div class="glass-crystal delay-3 rounded-2xl p-7 shadow-xl">
+            <h3 class="text-xl font-bold text-blue-300 flex items-center gap-2">
+                <i data-lucide="coffee"></i> Boissons sucrées
+            </h3>
+
+            <p class="text-white/70 text-sm mt-2">
+                Jus, sodas & cocktails soft
+            </p>
+
+            <p class="mt-8 text-5xl font-bold">
+                {{ $boissonsSucrees }}
+            </p>
+
+            <a href="{{ route('boissons.liste_sucree') }}"
+               class="inline-block mt-8 px-6 py-2 rounded-full
+                      bg-white/20 backdrop-blur border border-white/30
+                      hover:bg-white/30 transition font-semibold">
+                Consulter
+            </a>
+        </div>
+
+        <div class="glass-crystal delay-4 rounded-2xl p-7 shadow-xl">
+            <h3 class="text-xl font-bold text-red-300 flex items-center gap-2">
+                <i data-lucide="wine"></i> Boissons alcoolisées
+            </h3>
+
+            <p class="text-white/70 text-sm mt-2">
+                Bières, vins & spiritueux
+            </p>
+
+            <p class="mt-8 text-5xl font-bold">
+                {{ $boissonsAlcool }}
+            </p>
+
+            <a href="{{ route('boissons.liste_alcool') }}"
+               class="inline-block mt-8 px-6 py-2 rounded-full
+                      bg-white/20 backdrop-blur border border-white/30
+                      hover:bg-white/30 transition font-semibold">
+                Consulter
+            </a>
+        </div>
+
+        <!-- SHISHA -->
+        <div class="glass-crystal delay-1 rounded-2xl p-7 shadow-xl">
+            <h3 class="text-xl font-bold text-purple-300 flex items-center gap-2">
+                <i data-lucide="flame"></i> Shisha
+            </h3>
+
+            <p class="text-white/70 text-sm mt-2">
+                Parfums & options
+            </p>
+
+            <p class="mt-8 text-5xl font-bold">
+                0
+            </p>
+
+            <a href="#"
+               class="inline-block mt-8 px-6 py-2 rounded-full
+                      bg-white/20 backdrop-blur border border-white/30
+                      hover:bg-white/30 transition font-semibold">
+                Consulter
+            </a>
+        </div>
+
+    </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="border-t border-gray-800 py-10 text-center text-gray-400 text-sm">
+    © {{ date('Y') }} Chrystal-Club — Gestion interne
+</footer>
+
+<script>
+    lucide.createIcons();
+</script>
 
 </body>
 </html>
-
