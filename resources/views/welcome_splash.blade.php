@@ -5,56 +5,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Le Christal Club</title>
 
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 
     <style>
         body {
             font-family: 'Poppins', sans-serif;
         }
 
-        /* Animation fade + zoom */
-        @keyframes fadeZoom {
-            0% { opacity: 0; transform: scale(0.85); }
-            100% { opacity: 1; transform: scale(1); }
+        /* Animation glow */
+        @keyframes neonPulse {
+            0%, 100% {
+                text-shadow:
+                    0 0 10px rgba(59,130,246,.6),
+                    0 0 30px rgba(59,130,246,.4);
+            }
+            50% {
+                text-shadow:
+                    0 0 20px rgba(96,165,250,.9),
+                    0 0 50px rgba(96,165,250,.6);
+            }
         }
 
-        .animate-text {
-            opacity: 0;
-            animation: fadeZoom 1.5s ease-out forwards;
+        /* Apparition */
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Effet glace */
-        .glass-overlay {
-            backdrop-filter: blur(12px) saturate(150%);
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .neon-title {
+            animation: neonPulse 2.5s ease-in-out infinite;
+        }
+
+        .fade-up {
+            animation: rise 1.2s ease-out forwards;
         }
     </style>
 </head>
 
-<body class="relative h-screen flex items-center justify-center
-             bg-gradient-to-br from-black via-gray-900 to-black">
+<body class="h-screen flex items-center justify-center
+             bg-gradient-to-br from-black via-gray-950 to-black text-white">
 
-<!-- Overlay glace plein écran -->
-<div class="fixed inset-0 glass-overlay -z-10"></div>
+<!-- Halo central -->
+<div class="absolute w-[500px] h-[500px] rounded-full
+                bg-blue-600/10 blur-3xl"></div>
 
-<!-- Contenu principal -->
-<div class="text-center px-8 py-10 glass-overlay animate-text shadow-2xl">
-    <h1 class="text-4xl md:text-5xl font-bold text-white uppercase tracking-wider drop-shadow-lg">
-        Bienvenue au Christal Club
+<!-- Contenu -->
+<div class="relative text-center px-8 fade-up">
+
+    <h1 class="text-4xl md:text-6xl font-extrabold uppercase tracking-[0.2em]
+                   neon-title">
+        Christal Club
     </h1>
 
-    <p class="mt-4 text-lg md:text-xl text-white/90 tracking-wide">
-        Votre expérience commence ici...
+    <div class="w-24 h-[2px] bg-gradient-to-r
+                    from-transparent via-blue-500 to-transparent
+                    mx-auto my-6"></div>
+
+    <p class="text-base md:text-lg text-gray-300 tracking-wide">
+        Night • Lounge • Experience
     </p>
 </div>
 
 <script>
-    // Redirection après 2 secondes
-    setTimeout(function () {
+    setTimeout(() => {
         window.location.href = "{{ route('menus.boissons.sucree') }}";
     }, 2000);
 </script>
