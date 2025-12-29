@@ -34,9 +34,7 @@
         </h1>
 
         <nav class="space-x-6 text-gray-300 text-sm">
-            <a href="{{ route('dashbord') }}" class="hover:text-white transition">Dashboard</a>
-            <a href="{{ route('boissons.liste_sucree') }}" class="hover:text-white transition">Boissons</a>
-            <a href="#" class="hover:text-white transition">Déconnexion</a>
+            <a href="{{ route('dashboard') }}" class="hover:text-white transition">Dashboard</a>
         </nav>
     </div>
 </header>

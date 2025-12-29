@@ -1,29 +1,165 @@
-<h2>Modifier la boisson</h2>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Le Crystal-Club | Modifier une boisson</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-@if(session('success'))
-    <p style="color:green">{{ session('success') }}</p>
-@endif
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-<form action="{{ route('boissons.update', $boisson->id) }}"
-      method="POST" enctype="multipart/form-data">
-    @csrf
-    @method('PUT')
+    <!-- Police -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-    <div>
-        <label>Nom</label><br>
-        <input type="text" name="nom" value="{{ $boisson->nom }}">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="font-poppins bg-gradient-to-br from-black via-gray-900 to-black min-h-screen text-white">
+
+<!-- HEADER -->
+<header class="border-b border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold tracking-wider">
+            Le Crystal<span class="text-blue-500">-Club</span>
+        </h1>
+
+        <nav class="space-x-6 text-gray-300 text-sm">
+            <a href="{{ route('dashboard') }}" class="hover:text-white transition">
+                Dashboard
+            </a>
+        </nav>
     </div>
+</header>
 
-    <div>
-        <label>Prix</label><br>
-        <input type="number" name="prix" value="{{ $boisson->prix }}">
+<!-- CONTENU -->
+<main class="flex items-center justify-center py-14 px-6">
+    <div class="w-full max-w-xl bg-gray-900/90 border border-gray-800 rounded-2xl shadow-2xl p-8">
+
+        <!-- TITRE -->
+        <h2 class="text-3xl font-extrabold text-center mb-8 tracking-wide">
+            🍷 Modifier la boisson
+        </h2>
+
+        <!-- MESSAGE SUCCESS -->
+        @if(session('success'))
+            <div class="bg-green-600/20 border border-green-600 text-green-300 p-3 mb-6 rounded-lg text-sm">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <!-- ERREURS -->
+        @if($errors->any())
+            <div class="bg-red-600/20 border border-red-600 p-4 mb-6 rounded-lg">
+                <ul class="text-red-300 text-sm list-disc list-inside">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <!-- FORMULAIRE -->
+        <form
+            action="{{ route('boissons.update', $boisson->id) }}"
+            method="POST"
+            enctype="multipart/form-data"
+            class="space-y-6"
+        >
+            @csrf
+            @method('PUT')
+
+            <!-- NOM -->
+            <div>
+                <label class="block text-sm text-gray-300 mb-1">
+                    Nom de la boisson
+                </label>
+                <input
+                    type="text"
+                    name="nom"
+                    value="{{ old('nom', $boisson->nom) }}"
+                    class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3
+                           text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+            </div>
+
+            <!-- PRIX -->
+            <div>
+                <label class="block text-sm text-gray-300 mb-1">
+                    Prix ($)
+                </label>
+                <input
+                    type="number"
+                    step="0.01"
+                    name="prix"
+                    value="{{ old('prix', $boisson->prix) }}"
+                    class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3
+                           text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+            </div>
+
+            <!-- IMAGE -->
+            <div>
+                <label class="block text-sm text-gray-300 mb-1">
+                    Image (optionnelle)
+                </label>
+                <input
+                    type="file"
+                    name="image"
+                    class="w-full text-gray-300 bg-gray-800 border border-gray-700 rounded-lg
+                           file:bg-blue-600 file:text-white file:border-0
+                           file:px-4 file:py-2 file:rounded-lg
+                           file:cursor-pointer hover:file:bg-blue-700"
+                >
+
+                @if($boisson->image ?? false)
+                    <p class="text-xs text-gray-400 mt-2">
+                        Image actuelle conservée si aucune nouvelle image n’est choisie
+                    </p>
+                @endif
+            </div>
+
+            <!-- BOUTONS -->
+            <div class="flex gap-4 pt-4">
+                <button
+                    type="submit"
+                    class="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600
+                           hover:from-indigo-600 hover:to-blue-600
+                           py-3 rounded-xl font-semibold tracking-wide transition"
+                >
+                    Enregistrer
+                </button>
+
+                <a
+                    href="{{ route('boissons.liste_alcool') }}"
+                    class="flex-1 text-center bg-white/10 border border-white/20
+                           py-3 rounded-xl font-semibold tracking-wide
+                           hover:bg-white/20 transition"
+                >
+                    Annuler
+                </a>
+            </div>
+
+        </form>
+
     </div>
+</main>
 
-    <div>
-        <label>Image</label><br>
-        <input type="file" name="image">
+<!-- FOOTER -->
+<footer class="border-t border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 py-4 text-center text-gray-500 text-sm">
+        © {{ date('Y') }} Le Crystal-Club — Gestion interne
     </div>
+</footer>
 
-    <br>
-    <button type="submit">Enregistrer</button>
-</form>
+</body>
+</html>
