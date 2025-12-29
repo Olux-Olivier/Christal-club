@@ -8,7 +8,7 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Police élégante -->
+    <!-- Police -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <script>
@@ -24,38 +24,38 @@
     </script>
 </head>
 
-<body class="font-poppins bg-gradient-to-br from-black via-gray-900 to-black min-h-screen">
+<body class="font-poppins bg-gradient-to-br from-black via-gray-900 to-black min-h-screen text-white">
 
-<!-- Header -->
+<!-- HEADER -->
 <header class="border-b border-gray-800">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        <h1 class="text-2xl font-bold text-white tracking-wider">
+        <h1 class="text-2xl font-bold tracking-wider">
             Le Crystal<span class="text-blue-500">-Club</span>
         </h1>
 
-        <nav class="space-x-6 text-gray-300 text-sm">
-            <a href="{{ route('dashboard') }}" class="hover:text-white transition">Dashboard</a>
-        </nav>
+        <a href="{{ route('dashboard') }}" class="text-gray-300 text-sm hover:text-white transition">
+            Dashboard
+        </a>
     </div>
 </header>
 
-<!-- Contenu principal -->
+<!-- CONTENU -->
 <main class="flex items-center justify-center py-12 px-6">
     <div class="w-full max-w-xl bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl p-8">
 
-        <!-- Titre -->
-        <h2 class="text-3xl font-extrabold text-center text-white mb-8 tracking-wide">
+        <!-- TITRE -->
+        <h2 class="text-3xl font-extrabold text-center mb-8 tracking-wide">
             🍸 Ajouter une boisson
         </h2>
 
-        <!-- Message succès -->
+        <!-- SUCCESS -->
         @if(session('success'))
             <div class="bg-green-600/20 border border-green-600 text-green-300 p-3 mb-4 rounded-lg text-sm">
                 {{ session('success') }}
             </div>
         @endif
 
-        <!-- Erreurs -->
+        <!-- ERREURS -->
         @if($errors->any())
             <div class="bg-red-600/20 border border-red-600 p-3 mb-4 rounded-lg">
                 <ul class="text-red-300 text-sm list-disc list-inside">
@@ -66,23 +66,22 @@
             </div>
         @endif
 
-        <!-- Formulaire -->
+        <!-- FORMULAIRE -->
         <form action="{{ route('boissons.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
 
-            <!-- Nom -->
+            <!-- NOM -->
             <div>
-                <label class="block text-sm text-gray-300 mb-1">Nom de la boisson</label>
+                <label class="block text-sm text-gray-300 mb-1">Nom</label>
                 <input
                     type="text"
                     name="nom"
                     value="{{ old('nom') }}"
-                    placeholder="Ex : Whisky Royal"
-                    class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500"
                 >
             </div>
 
-            <!-- Prix -->
+            <!-- PRIX -->
             <div>
                 <label class="block text-sm text-gray-300 mb-1">Prix ($)</label>
                 <input
@@ -90,59 +89,120 @@
                     step="0.01"
                     name="prix"
                     value="{{ old('prix') }}"
-                    placeholder="Ex : 15.00"
-                    class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500"
                 >
             </div>
 
-            <!-- Catégorie -->
+            <!-- CATÉGORIE -->
             <div>
                 <label class="block text-sm text-gray-300 mb-1">Catégorie</label>
                 <select
+                    id="categorie"
                     name="categorie"
-                    class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500"
                 >
+                    <option value="">-- Choisir --</option>
                     <option value="alcoolisee" {{ old('categorie') == 'alcoolisee' ? 'selected' : '' }}>
-                        🍾 Alcoolisée
+                        Alcoolisée
                     </option>
                     <option value="sucree" {{ old('categorie') == 'sucree' ? 'selected' : '' }}>
-                        🧃 Sucrée
+                        Sucrée
                     </option>
                 </select>
             </div>
 
-            <!-- Image -->
+            <!-- TYPE (ALCOOL UNIQUEMENT) -->
+            <div id="type-alcool" class="hidden">
+                <label class="block text-sm text-gray-300 mb-3">
+                    Type d’alcool
+                </label>
+
+                <div class="grid grid-cols-2 gap-4">
+                    @php
+                        $types = [
+                            'biere' => 'Bière',
+                            'vin' => 'Vin',
+                            'cider' => 'Cider',
+                            'champagne' => 'Champagne',
+                            'shisha'=>'Shisa',
+                            'wisky'=> 'Wisky'
+                        ];
+                    @endphp
+
+                    @foreach($types as $value => $label)
+                        <label class="cursor-pointer">
+                            <input
+                                type="radio"
+                                name="type"
+                                value="{{ $value }}"
+                                class="hidden peer"
+                                {{ old('type') == $value ? 'checked' : '' }}
+                            >
+                            <div class="text-center px-4 py-3 rounded-lg
+                                        bg-gray-800 border border-gray-700
+                                        peer-checked:border-blue-500
+                                        peer-checked:bg-blue-600/20
+                                        hover:bg-gray-700 transition">
+                                {{ $label }}
+                            </div>
+                        </label>
+                    @endforeach
+                </div>
+            </div>
+
+            <!-- IMAGE -->
             <div>
                 <label class="block text-sm text-gray-300 mb-1">Image</label>
                 <input
                     type="file"
                     name="image"
                     class="w-full text-gray-300 bg-gray-800 border border-gray-700 rounded-lg
-                               file:bg-blue-600 file:text-white file:border-0
-                               file:px-4 file:py-2 file:rounded-lg
-                               file:cursor-pointer hover:file:bg-blue-700"
+                           file:bg-blue-600 file:text-white file:border-0
+                           file:px-4 file:py-2 file:rounded-lg
+                           file:cursor-pointer hover:file:bg-blue-700"
                 >
             </div>
 
-            <!-- Bouton -->
+            <!-- SUBMIT -->
             <button
                 type="submit"
-                class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-indigo-600 hover:to-blue-600
-                           text-white py-3 rounded-xl font-semibold tracking-wide transition duration-300"
+                class="w-full bg-gradient-to-r from-blue-600 to-indigo-600
+                       hover:from-indigo-600 hover:to-blue-600
+                       py-3 rounded-xl font-semibold tracking-wide transition"
             >
                 Ajouter la boisson
             </button>
+
         </form>
 
     </div>
 </main>
 
-<!-- Footer -->
+<!-- FOOTER -->
 <footer class="border-t border-gray-800 mt-12">
     <div class="max-w-7xl mx-auto px-6 py-4 text-center text-gray-500 text-sm">
-        © {{ date('Y') }} Le Crystal-Club — Tous droits réservés
+        © {{ date('Y') }} Le Crystal-Club
     </div>
 </footer>
+
+<!-- SCRIPT -->
+<script>
+    const categorieSelect = document.getElementById('categorie');
+    const typeAlcool = document.getElementById('type-alcool');
+
+    function toggleType() {
+        if (categorieSelect.value === 'alcoolisee') {
+            typeAlcool.classList.remove('hidden');
+        } else {
+            typeAlcool.classList.add('hidden');
+        }
+    }
+
+    categorieSelect.addEventListener('change', toggleType);
+
+    // Au chargement (old value)
+    toggleType();
+</script>
 
 </body>
 </html>

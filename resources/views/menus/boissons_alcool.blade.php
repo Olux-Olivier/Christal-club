@@ -27,13 +27,12 @@
         }
     </script>
 
-    <!-- EFFET CRYSTAL ANIMÉ -->
+    <!-- STYLE CRYSTAL -->
     <style>
         body {
             font-family: 'Poppins', sans-serif;
         }
 
-        /* Base crystal */
         .glass-crystal {
             position: relative;
             background: linear-gradient(
@@ -42,12 +41,10 @@
                 rgba(255,255,255,0.02)
             );
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255,255,255,0.18);
             overflow: hidden;
         }
 
-        /* Reflet animé */
         .glass-crystal::before {
             content: "";
             position: absolute;
@@ -67,28 +64,14 @@
             pointer-events: none;
         }
 
-        /* Animation du balayage */
         @keyframes crystalSweep {
-            0% {
-                left: -80%;
-                opacity: 0;
-            }
-            15% {
-                opacity: 0.4;
-            }
-            50% {
-                opacity: 0.7;
-            }
-            85% {
-                opacity: 0.4;
-            }
-            100% {
-                left: 130%;
-                opacity: 0;
-            }
+            0% { left: -80%; opacity: 0; }
+            15% { opacity: 0.4; }
+            50% { opacity: 0.7; }
+            85% { opacity: 0.4; }
+            100% { left: 130%; opacity: 0; }
         }
 
-        /* Décalage entre cards */
         .glass-delay-1::before { animation-delay: 0s; }
         .glass-delay-2::before { animation-delay: 1.8s; }
         .glass-delay-3::before { animation-delay: 3.6s; }
@@ -117,7 +100,6 @@
 <section class="max-w-7xl mx-auto px-6 py-10">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
 
-        <!-- TITRE -->
         <div class="flex items-center gap-4">
             <span class="material-icons text-4xl text-blue-400
                          drop-shadow-[0_0_10px_rgba(59,130,246,0.7)]">
@@ -136,7 +118,6 @@
             </div>
         </div>
 
-        <!-- ACTIONS -->
         <div class="flex flex-wrap gap-3">
             <a href="{{ route('menus.boissons.sucree') }}"
                class="px-5 py-2 rounded-xl font-semibold border
@@ -171,19 +152,38 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
+        @php
+            $currentType = null;
+        @endphp
+
         @forelse($boissons as $item)
+
+            <!-- TITRE PAR TYPE -->
+            @if($item->type !== $currentType)
+                <div class="col-span-full mt-10 mb-4">
+                    <h2 class="text-2xl font-extrabold uppercase tracking-widest text-blue-300">
+                        {{ ucfirst($item->type) }}
+                    </h2>
+                </div>
+
+                @php
+                    $currentType = $item->type;
+                @endphp
+            @endif
+
+            <!-- CARD -->
             <div class="glass-crystal glass-delay-{{ $loop->iteration % 4 + 1 }}
-                    rounded-2xl shadow-xl transition overflow-hidden">
+                        rounded-2xl shadow-xl transition overflow-hidden">
 
                 <!-- IMAGE -->
-                @if($item->thumbnail)
+                @if(!empty($item->thumbnail))
                     <div class="h-48 w-full overflow-hidden">
                         <img src="{{ asset('storage/boissons/'.$item->thumbnail) }}"
                              alt="{{ $item->nom }}"
                              class="w-full h-full object-cover"
                              loading="lazy">
                     </div>
-                @elseif($item->image)
+                @elseif(!empty($item->image))
                     <div class="h-48 w-full overflow-hidden">
                         <img src="{{ asset('storage/boissons/'.$item->image) }}"
                              alt="{{ $item->nom }}"
@@ -197,17 +197,31 @@
                 @endif
 
                 <!-- TEXTE -->
-                <div class="p-6 flex items-center justify-between gap-4">
-                <span class="text-lg font-bold text-white">
-                    {{ number_format($item->prix, 0) }} Fc
-                </span>
+                <div class="p-6 flex flex-col gap-3">
 
-                    <h3 class="text-xl font-bold text-blue-300 text-right leading-tight">
-                        {{ $item->nom }}
-                    </h3>
+                    <!-- BADGE TYPE -->
+                    @if(!empty($item->type))
+                        <span class="inline-block w-fit px-3 py-1 text-xs font-semibold
+                                     uppercase tracking-widest rounded-full
+                                     bg-blue-600/20 text-blue-300
+                                     border border-blue-500/30">
+                            {{ $item->type }}
+                        </span>
+                    @endif
+
+                    <div class="flex items-center justify-between gap-4">
+                        <span class="text-lg font-bold text-white">
+                            {{ number_format($item->prix, 0) }} Fc
+                        </span>
+
+                        <h3 class="text-xl font-bold text-blue-300 text-right leading-tight">
+                            {{ $item->nom }}
+                        </h3>
+                    </div>
                 </div>
 
             </div>
+
         @empty
             <p class="col-span-full text-center text-gray-400">
                 Aucune boisson alcoolisée disponible
@@ -232,15 +246,6 @@
     <p class="text-gray-400 text-sm mt-2">
         Ambiance • Élégance • Excellence
     </p>
-
-    <div class="flex justify-center gap-8 mt-6">
-        <a href="#" class="hover:text-blue-500 transition">
-            <i data-lucide="facebook" class="w-6 h-6"></i>
-        </a>
-        <a href="#" class="hover:text-pink-500 transition">
-            <i data-lucide="instagram" class="w-6 h-6"></i>
-        </a>
-    </div>
 
     <p class="mt-6 text-gray-500 text-xs">
         © {{ date('Y') }} Le Crystal-Club — Tous droits réservés

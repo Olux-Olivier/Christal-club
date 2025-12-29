@@ -86,9 +86,14 @@ class BoissonController extends Controller
      */
     public function alcool()
     {
-        $boissons = Boisson::where('categorie', 'alcoolisee')->paginate(9);
+        $boissons = Boisson::where('categorie', 'alcoolisee')
+            ->orderBy('type')   // IMPORTANT pour le groupement visuel
+            ->orderBy('nom')
+            ->paginate(9);
+
         return view('menus.boissons_alcool', compact('boissons'));
     }
+
 
     public function sucree()
     {

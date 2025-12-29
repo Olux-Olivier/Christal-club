@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Boisson extends Model
 {
     //
-    protected $fillable = ['nom', 'prix', 'categorie', 'image', 'thumbnail'];
+    protected $fillable = ['nom', 'prix', 'categorie', 'type', 'image', 'thumbnail'];
 }

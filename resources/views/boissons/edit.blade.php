@@ -33,11 +33,9 @@
             Le Crystal<span class="text-blue-500">-Club</span>
         </h1>
 
-        <nav class="space-x-6 text-gray-300 text-sm">
-            <a href="{{ route('dashboard') }}" class="hover:text-white transition">
-                Dashboard
-            </a>
-        </nav>
+        <a href="{{ route('dashboard') }}" class="text-gray-300 text-sm hover:text-white transition">
+            Dashboard
+        </a>
     </div>
 </header>
 
@@ -50,7 +48,7 @@
             🍷 Modifier la boisson
         </h2>
 
-        <!-- MESSAGE SUCCESS -->
+        <!-- SUCCESS -->
         @if(session('success'))
             <div class="bg-green-600/20 border border-green-600 text-green-300 p-3 mb-6 rounded-lg text-sm">
                 {{ session('success') }}
@@ -69,49 +67,102 @@
         @endif
 
         <!-- FORMULAIRE -->
-        <form
-            action="{{ route('boissons.update', $boisson->id) }}"
-            method="POST"
-            enctype="multipart/form-data"
-            class="space-y-6"
-        >
+        <form action="{{ route('boissons.update', $boisson->id) }}"
+              method="POST"
+              enctype="multipart/form-data"
+              class="space-y-6">
             @csrf
             @method('PUT')
 
             <!-- NOM -->
             <div>
-                <label class="block text-sm text-gray-300 mb-1">
-                    Nom de la boisson
-                </label>
+                <label class="block text-sm text-gray-300 mb-1">Nom</label>
                 <input
                     type="text"
                     name="nom"
                     value="{{ old('nom', $boisson->nom) }}"
                     class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3
-                           text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                           focus:ring-2 focus:ring-blue-500"
                 >
             </div>
 
             <!-- PRIX -->
             <div>
-                <label class="block text-sm text-gray-300 mb-1">
-                    Prix ($)
-                </label>
+                <label class="block text-sm text-gray-300 mb-1">Prix ($)</label>
                 <input
                     type="number"
                     step="0.01"
                     name="prix"
                     value="{{ old('prix', $boisson->prix) }}"
                     class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3
-                           text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                           focus:ring-2 focus:ring-blue-500"
                 >
+            </div>
+
+            <!-- CATÉGORIE -->
+            <div>
+                <label class="block text-sm text-gray-300 mb-1">Catégorie</label>
+                <select
+                    id="categorie"
+                    name="categorie"
+                    class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3
+                           focus:ring-2 focus:ring-blue-500"
+                >
+                    <option value="">-- Choisir --</option>
+                    <option value="alcoolisee"
+                        {{ old('categorie', $boisson->categorie) === 'alcoolisee' ? 'selected' : '' }}>
+                        Alcoolisée
+                    </option>
+                    <option value="sucree"
+                        {{ old('categorie', $boisson->categorie) === 'sucree' ? 'selected' : '' }}>
+                        Sucrée
+                    </option>
+                </select>
+            </div>
+
+            <!-- TYPE (ALCOOL UNIQUEMENT) -->
+            <div id="type-alcool" class="hidden">
+                <label class="block text-sm text-gray-300 mb-3">
+                    Type d’alcool
+                </label>
+
+                <div class="grid grid-cols-2 gap-4">
+                    @php
+                        $types = [
+                            'biere' => 'Bière',
+                            'vin' => 'Vin',
+                            'cider' => 'Cider',
+                            'champagne' => 'Champagne',
+                            'shisha' => 'Shisha',
+                            'wisky' => 'Wisky'
+                        ];
+                        $currentType = old('type', $boisson->type);
+                    @endphp
+
+                    @foreach($types as $value => $label)
+                        <label class="cursor-pointer">
+                            <input
+                                type="radio"
+                                name="type"
+                                value="{{ $value }}"
+                                class="hidden peer"
+                                {{ $currentType === $value ? 'checked' : '' }}
+                            >
+                            <div class="text-center px-4 py-3 rounded-lg
+                                        bg-gray-800 border border-gray-700
+                                        peer-checked:border-blue-500
+                                        peer-checked:bg-blue-600/20
+                                        hover:bg-gray-700 transition">
+                                {{ $label }}
+                            </div>
+                        </label>
+                    @endforeach
+                </div>
             </div>
 
             <!-- IMAGE -->
             <div>
-                <label class="block text-sm text-gray-300 mb-1">
-                    Image (optionnelle)
-                </label>
+                <label class="block text-sm text-gray-300 mb-1">Image (optionnelle)</label>
                 <input
                     type="file"
                     name="image"
@@ -121,7 +172,7 @@
                            file:cursor-pointer hover:file:bg-blue-700"
                 >
 
-                @if($boisson->image ?? false)
+                @if($boisson->image)
                     <p class="text-xs text-gray-400 mt-2">
                         Image actuelle conservée si aucune nouvelle image n’est choisie
                     </p>
@@ -139,27 +190,44 @@
                     Enregistrer
                 </button>
 
-                <a
-                    href="{{ route('boissons.liste_alcool') }}"
-                    class="flex-1 text-center bg-white/10 border border-white/20
-                           py-3 rounded-xl font-semibold tracking-wide
-                           hover:bg-white/20 transition"
-                >
+                <a href="{{ route('boissons.liste_alcool') }}"
+                   class="flex-1 text-center bg-white/10 border border-white/20
+                          py-3 rounded-xl font-semibold tracking-wide
+                          hover:bg-white/20 transition">
                     Annuler
                 </a>
             </div>
 
         </form>
-
     </div>
 </main>
 
 <!-- FOOTER -->
 <footer class="border-t border-gray-800">
     <div class="max-w-7xl mx-auto px-6 py-4 text-center text-gray-500 text-sm">
-        © {{ date('Y') }} Le Crystal-Club — Gestion interne
+        © {{ date('Y') }} Le Crystal-Club
     </div>
 </footer>
 
+<!-- SCRIPT -->
+<script>
+    const categorieSelect = document.getElementById('categorie');
+    const typeAlcool = document.getElementById('type-alcool');
+
+    function toggleType() {
+        if (categorieSelect.value === 'alcoolisee') {
+            typeAlcool.classList.remove('hidden');
+        } else {
+            typeAlcool.classList.add('hidden');
+        }
+    }
+
+    categorieSelect.addEventListener('change', toggleType);
+
+    // Affichage initial (valeur DB ou old)
+    toggleType();
+</script>
+
 </body>
 </html>
+
