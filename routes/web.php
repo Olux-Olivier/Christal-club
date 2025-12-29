@@ -59,5 +59,5 @@ Route::put('/boissons/{boisson}', [BoissonController::class, 'update'])
 Route::delete('/boissons/{boisson}', [BoissonController::class, 'destroy'])
     ->name('boissons.destroy');
 
-Route::get('/dashboard', [DashboardController::class, 'index'])
+Route::get('gestion/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard');

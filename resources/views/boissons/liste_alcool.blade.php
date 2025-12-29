@@ -12,7 +12,7 @@
     </tr>
 
     <a href="{{ route('boissons.create') }}">Ajouter une boisson</a> <br>
-    <a href="{{ route('dashbord')}}">Dashboard</a>
+    <a href="{{ route('dashboard')}}">Dashboard</a>
 
     @foreach($boissons as $boisson)
     <tr>
