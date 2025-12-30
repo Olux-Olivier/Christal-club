@@ -34,6 +34,7 @@ class BoissonController extends Controller
         $request->validate([
             'nom' => 'required|string|max:255',
             'prix' => 'required|numeric',
+            'type' => 'required|string|max:255',
             'categorie' => 'required|in:alcoolisee,sucree',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:20048',
         ]);
@@ -74,6 +75,7 @@ class BoissonController extends Controller
             'nom'       => $request->nom,
             'prix'      => $request->prix,
             'categorie' => $request->categorie,
+            'type'      => $request->type,
             'image'     => $imageName,
             'thumbnail' => $thumbName,
         ]);
@@ -132,6 +134,7 @@ class BoissonController extends Controller
         $request->validate([
             'nom'   => 'required|string|max:255',
             'prix'  => 'required|numeric',
+            'type' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:20048',
         ]);
 
@@ -174,6 +177,7 @@ class BoissonController extends Controller
         $boisson->update([
             'nom'  => $request->nom,
             'prix' => $request->prix,
+            'type' => $request->type
         ]);
 
         return back()->with('success', 'Boisson modifiée avec succès');

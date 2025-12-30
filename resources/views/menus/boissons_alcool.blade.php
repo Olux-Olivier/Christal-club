@@ -158,12 +158,16 @@
 
         @forelse($boissons as $item)
 
-            <!-- TITRE PAR TYPE -->
+            {{-- TITRE DE SECTION PAR TYPE (STYLE IDENTIQUE À L’IMAGE) --}}
             @if($item->type !== $currentType)
-                <div class="col-span-full mt-10 mb-4">
-                    <h2 class="text-2xl font-extrabold uppercase tracking-widest text-blue-300">
-                        {{ ucfirst($item->type) }}
-                    </h2>
+                <div class="col-span-full mt-12 mb-6">
+                    <div class="glass-crystal px-6 py-3 rounded-xl text-center">
+                        <h2 class="text-lg font-bold text-3xl font-extrabold tracking-wide
+                           bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500
+                           bg-clip-text text-transparent tracking-wide uppercase">
+                            {{ ucfirst($item->type) }}
+                        </h2>
+                    </div>
                 </div>
 
                 @php
@@ -171,7 +175,7 @@
                 @endphp
             @endif
 
-            <!-- CARD -->
+
             <div class="glass-crystal glass-delay-{{ $loop->iteration % 4 + 1 }}
                         rounded-2xl shadow-xl transition overflow-hidden">
 
@@ -197,40 +201,27 @@
                 @endif
 
                 <!-- TEXTE -->
-                <div class="p-6 flex flex-col gap-3">
+                <div class="p-6 flex items-center justify-between gap-4">
+                    <span class="text-lg font-bold text-white">
+                        {{ number_format($item->prix, 0) }} Fc
+                    </span>
 
-                    <!-- BADGE TYPE -->
-                    @if(!empty($item->type))
-                        <span class="inline-block w-fit px-3 py-1 text-xs font-semibold
-                                     uppercase tracking-widest rounded-full
-                                     bg-blue-600/20 text-blue-300
-                                     border border-blue-500/30">
-                            {{ $item->type }}
-                        </span>
-                    @endif
-
-                    <div class="flex items-center justify-between gap-4">
-                        <span class="text-lg font-bold text-white">
-                            {{ number_format($item->prix, 0) }} Fc
-                        </span>
-
-                        <h3 class="text-xl font-bold text-blue-300 text-right leading-tight">
-                            {{ $item->nom }}
-                        </h3>
-                    </div>
+                    <h3 class="text-xl font-bold text-blue-300 text-right leading-tight">
+                        {{ $item->nom }}
+                    </h3>
                 </div>
 
             </div>
 
         @empty
             <p class="col-span-full text-center text-gray-400">
-                Aucune boisson alcoolisée disponible
+                Aucune boisson disponible
             </p>
         @endforelse
 
     </div>
 
-    <!-- PAGINATION -->
+    <!-- PAGINATION (INCHANGÉE) -->
     <div class="mt-12">
         {{ $boissons->links() }}
     </div>

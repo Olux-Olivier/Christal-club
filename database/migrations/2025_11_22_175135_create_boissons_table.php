@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('boissons', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
+            $table->string('type');
             $table->decimal('prix', 8, 2);
             $table->enum('categorie', ['alcoolisee', 'sucree']);
             $table->string('image');
