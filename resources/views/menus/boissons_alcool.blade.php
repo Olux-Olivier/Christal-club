@@ -203,7 +203,7 @@
                 <!-- TEXTE -->
                 <div class="p-6 flex items-center justify-between gap-4">
                     <span class="text-lg font-bold text-white">
-                        {{ number_format($item->prix, 0) }} Fc
+                        {{ number_format($item->prix, 0) }} $
                     </span>
 
                     <h3 class="text-xl font-bold text-blue-300 text-right leading-tight">

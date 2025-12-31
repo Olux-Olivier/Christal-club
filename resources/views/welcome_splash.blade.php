@@ -58,7 +58,7 @@
 
     <h1 class="text-4xl md:text-6xl font-extrabold uppercase tracking-[0.2em]
                    neon-title">
-        Christal Club
+        Le Crystal Club
     </h1>
 
     <div class="w-24 h-[2px] bg-gradient-to-r
