@@ -27,12 +27,9 @@ Route::get('/plats/create', [PlatController::class, 'create']);
 Route::post('/plats/store', [PlatController::class, 'store'])->name('plats.store');
 
 // BOISSONS
-    Route::get('/boissons/create', [BoissonController::class, 'create'])->name('boissons.create');
+Route::get('/boissons/create', [BoissonController::class, 'create'])->name('boissons.create');
 Route::post('/boissons/store', [BoissonController::class, 'store'])->name('boissons.store');
 
-
-// AFFICHAGE DES MENUS
-// PLATS
 Route::get('/menus/plats/plat', [PlatController::class, 'plats'])->name('menus.plats.plat');
 Route::get('/menus/plats/autres', [PlatController::class, 'autresPlats'])->name('menus.plats.autres');
 

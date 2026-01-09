@@ -31,13 +31,23 @@ class BoissonController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'nom' => 'required|string|max:255',
             'prix' => 'required|numeric',
-            'type' => 'required|string|max:255',
             'categorie' => 'required|in:alcoolisee,sucree',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:20048',
         ]);
+        // On verifie  su
+        if($request->categorie === "alcoolisee"){
+            $request->validate([
+                'type' => 'required|string|max:255'
+            ]);
+        } else{
+            $request->validate([
+                'type' => 'nullable'
+            ]);
+        }
 
         $imageName = null;
         $thumbName = null;
