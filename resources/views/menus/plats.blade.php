@@ -95,7 +95,7 @@
 </section>
 
 <!-- CONTENU MESSAGE -->
-<main class="max-w-4xl mx-auto px-6 mb-24">
+{{-- <main class="max-w-4xl mx-auto px-6 mb-24">
 
     <div class="glass rounded-3xl shadow-2xl p-10 md:p-14 text-center">
 
@@ -129,7 +129,46 @@
 
     </div>
 
-</main>
+</main> --}}
+
+<div class="max-w-7xl mx-auto py-10 px-4">
+
+
+    @if($plats->count())
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+
+            @foreach($plats as $plat)
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition">
+
+                    <!-- Image -->
+                    <img
+                        src="{{ asset('storage/plats/' . $plat->image) }}"
+                        alt="{{ $plat->nom }}"
+                        class="w-full h-48 object-cover"
+                    >
+
+                    <!-- Contenu -->
+                    <div class="p-4">
+                        <h2 class="text-xl font-semibold">{{ $plat->nom }}</h2>
+                        <p class="text-yellow-600 font-bold mt-2">
+                            {{ number_format($plat->prix, 0) }} FC
+                        </p>
+                    </div>
+
+                </div>
+            @endforeach
+
+        </div>
+
+        <!-- Pagination -->
+        <div class="mt-8">
+            {{ $plats->links() }}
+        </div>
+    @else
+        <p class="text-center text-gray-500">Aucun plat disponible pour le moment.</p>
+    @endif
+
+</div>
 
 <!-- FOOTER -->
 <footer class="border-t border-gray-800 py-12 text-center">
