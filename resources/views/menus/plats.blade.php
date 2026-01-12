@@ -89,6 +89,12 @@
                       bg-gray-800 border-gray-700 hover:bg-gray-700 transition">
                 Boissons
             </a>
+
+            <a href="{{ route('menus.boissons.sucree') }}"
+               class="px-5 py-2 rounded-xl font-semibold border
+                      bg-gray-800 border-gray-700 hover:bg-gray-700 transition">
+                Menu club
+            </a>
         </div>
 
     </div>

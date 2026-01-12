@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('boissons', function (Blueprint $table) {
+        Schema::create('boissons_restos', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
             $table->string('type');
             $table->decimal('prix', 8, 2);
             $table->enum('categorie', ['alcoolisee', 'sucree']);
             $table->string('image');
-            $table->string('thumbnail')->nullable()->after('image');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('boissons');
+        Schema::dropIfExists('boissons_restos');
     }
 };

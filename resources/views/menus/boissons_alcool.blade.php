@@ -140,7 +140,7 @@
                       from-blue-600 to-indigo-600
                       hover:from-indigo-600 hover:to-blue-600
                       transition font-semibold">
-                Voir les plats
+                Menu restaurant
             </a>
         </div>
 
