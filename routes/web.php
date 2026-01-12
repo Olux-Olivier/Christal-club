@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PlatController;
 use App\Http\Controllers\BoissonController;
+use App\Http\Controllers\BoissonsRestoController;
 
 
 Route::get('/', function () {
@@ -29,6 +30,13 @@ Route::post('/plats/store', [PlatController::class, 'store'])->name('plats.store
 // BOISSONS
 Route::get('/boissons/create', [BoissonController::class, 'create'])->name('boissons.create');
 Route::post('/boissons/store', [BoissonController::class, 'store'])->name('boissons.store');
+
+//BOISSONS RESTAURANT
+Route::get('/boissonsResto/create', [BoissonsRestoController::class, 'create'])->name('boissonsResto.create');
+Route::post('/boissonsResto/store', [BoissonsRestoController::class, 'store'])->name('boissonsResto.store');
+
+
+
 
 Route::get('/menus/plats/plat', [PlatController::class, 'plats'])->name('menus.plats.plat');
 Route::get('/menus/plats/autres', [PlatController::class, 'autresPlats'])->name('menus.plats.autres');

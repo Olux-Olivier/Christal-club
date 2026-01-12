@@ -53,7 +53,7 @@
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 
         <h1 class="text-xl font-bold tracking-wider">
-            Chrystal<span class="text-blue-500">-Club</span>
+            Le Crystal<span class="text-blue-500">-Restaurant</span>
         </h1>
 
         <a href="{{ route('welcome') }}"
