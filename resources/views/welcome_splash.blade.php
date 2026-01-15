@@ -72,7 +72,7 @@
 
 <script>
     setTimeout(() => {
-        window.location.href = "{{ route('menus.boissons.sucree') }}";
+        window.location.href = "{{ route('menus.boissonsResto.sucree') }}";
     }, 2000);
 </script>
 
