@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chrystal-Club | Plats</title>
+    <title>Le Crystal-Club | Boissons sucrées</title>
 
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -27,13 +27,14 @@
         }
     </script>
 
-    <!-- STYLE GLASS (IDENTIQUE AUX BOISSONS) -->
+    <!-- EFFET CRYSTAL -->
     <style>
         body {
             font-family: 'Poppins', sans-serif;
         }
 
-        .glass {
+        .glass-crystal {
+            position: relative;
             background: linear-gradient(
                 135deg,
                 rgba(255,255,255,0.12),
@@ -42,18 +43,50 @@
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255,255,255,0.18);
+            overflow: hidden;
         }
+
+        .glass-crystal::before {
+            content: "";
+            position: absolute;
+            top: -60%;
+            left: -80%;
+            width: 60%;
+            height: 220%;
+            background: linear-gradient(
+                120deg,
+                transparent 35%,
+                rgba(255,255,255,0.35),
+                transparent 65%
+            );
+            transform: rotate(25deg);
+            animation: crystalSweep 7s linear infinite;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        @keyframes crystalSweep {
+            0% { left: -80%; opacity: 0; }
+            15% { opacity: .4; }
+            50% { opacity: .7; }
+            85% { opacity: .4; }
+            100% { left: 130%; opacity: 0; }
+        }
+
+        .glass-delay-1::before { animation-delay: 0s; }
+        .glass-delay-2::before { animation-delay: 1.8s; }
+        .glass-delay-3::before { animation-delay: 3.6s; }
+        .glass-delay-4::before { animation-delay: 5.4s; }
     </style>
 </head>
 
-<body class="font-poppins bg-gradient-to-br from-black via-gray-900 to-black text-white min-h-screen">
+<body class="bg-gradient-to-br from-black via-gray-900 to-black text-white min-h-screen">
 
 <!-- HEADER -->
 <header class="border-b border-gray-800">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-
         <h1 class="text-xl font-bold tracking-wider">
-            Le Crystal<span class="text-blue-500">-Restaurant</span>
+            Le Crystal<span class="text-blue-500">-Club</span>
         </h1>
 
         <a href="{{ route('welcome') }}"
@@ -64,25 +97,30 @@
     </div>
 </header>
 
-<!-- TOOLBAR (IDENTIQUE AUX BOISSONS) -->
+<!-- TOOLBAR -->
 <section class="max-w-7xl mx-auto px-6 py-10">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
 
+        <!-- TITRE -->
         <div class="flex items-center gap-4">
-            <span class="material-icons text-4xl text-blue-400">
-                restaurant
+            <span class="material-icons text-4xl text-blue-400
+                         drop-shadow-[0_0_10px_rgba(59,130,246,0.7)]">
+                local_drink
             </span>
 
             <div>
-                <h2 class="text-3xl font-extrabold tracking-wide">
-                    Nos Plats
+                <h2 class="text-3xl font-extrabold tracking-wide
+                           bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500
+                           bg-clip-text text-transparent">
+                    Boissons sucrées
                 </h2>
                 <p class="text-gray-400 text-sm mt-1">
-                    Cuisine du Chrystal-Club
+                    Sélection visuelle du Chrystal-Club
                 </p>
             </div>
         </div>
 
+        <!-- ACTIONS -->
         <div class="flex flex-wrap gap-3">
             <a href="{{ route('menus.boissonsResto.sucree') }}"
                class="px-5 py-2 rounded-xl font-semibold border
@@ -116,87 +154,60 @@
     </div>
 </section>
 
-<!-- CONTENU MESSAGE -->
-{{-- <main class="max-w-4xl mx-auto px-6 mb-24">
+<!-- CONTENU -->
+<main class="max-w-7xl mx-auto px-6 mb-20">
 
-    <div class="glass rounded-3xl shadow-2xl p-10 md:p-14 text-center">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
-        <!-- Icône -->
-        <div class="flex justify-center mb-6">
-            <i data-lucide="info" class="w-14 h-14 text-blue-400"></i>
-        </div>
+        @forelse($boissons as $item)
+            <div class="glass-crystal glass-delay-{{ $loop->iteration % 4 + 1 }}
+                        rounded-2xl shadow-xl transition overflow-hidden">
 
-        <!-- Message -->
-        <h3 class="text-2xl md:text-3xl font-bold mb-6">
-            Les plats ne sont pas encore disponibles
-        </h3>
+                <!-- IMAGE -->
+                @if($item->thumbnail)
+                    <div class="h-48 w-full overflow-hidden">
+                        <img src="{{ asset('storage/boissons/'.$item->thumbnail) }}"
+                             alt="{{ $item->nom }}"
+                             class="w-full h-full object-cover"
+                             loading="lazy">
+                    </div>
+                @else
+                    <div class="h-48 bg-gray-800 flex items-center justify-center text-gray-500">
+                        Aucune image
+                    </div>
+                @endif
 
-        <p class="text-gray-300 text-lg leading-relaxed mb-10">
-            Notre équipe travaille actuellement à la préparation d’un menu
-            culinaire à la hauteur de l’expérience <strong>Chrystal-Club</strong>.
-            <br><br>
-            En attendant, nous vous invitons à profiter pleinement de notre
-            sélection raffinée de boissons.
-        </p>
+                <!-- TEXTE -->
+                <div class="p-6 flex items-center justify-between gap-4">
+                    <span class="text-lg font-bold text-white">
+                        {{ number_format($item->prix, 0) }} Fc
+                    </span>
 
-        <!-- CTA -->
-        <a href="{{ route('menus.boissons.sucree') }}"
-           class="inline-flex items-center gap-3 px-8 py-3 rounded-full
-                  bg-gradient-to-r from-blue-600 to-indigo-600
-                  hover:from-indigo-600 hover:to-blue-600
-                  transition font-semibold shadow-lg">
-            <i data-lucide="wine" class="w-5 h-5"></i>
-            Découvrir les boissons
-        </a>
+                    <h3 class="text-xl font-bold text-blue-300 text-right leading-tight">
+                        {{ $item->nom }}
+                    </h3>
+                </div>
+
+            </div>
+        @empty
+            <p class="col-span-full text-center text-gray-400">
+                Aucune boisson disponible
+            </p>
+        @endforelse
 
     </div>
 
-</main> --}}
+    <!-- PAGINATION -->
+    <div class="mt-12">
+        {{ $boissons->links() }}
+    </div>
 
-<div class="max-w-7xl mx-auto py-10 px-4">
-
-
-    @if($plats->count())
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-
-            @foreach($plats as $plat)
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition">
-
-                    <!-- Image -->
-                    <img
-                        src="{{ asset('storage/plats/' . $plat->image) }}"
-                        alt="{{ $plat->nom }}"
-                        class="w-full h-48 object-cover"
-                    >
-
-                    <!-- Contenu -->
-                    <div class="p-4">
-                        <h2 class="text-xl font-semibold">{{ $plat->nom }}</h2>
-                        <p class="text-yellow-600 font-bold mt-2">
-                            {{ number_format($plat->prix, 0) }} FC
-                        </p>
-                    </div>
-
-                </div>
-            @endforeach
-
-        </div>
-
-        <!-- Pagination -->
-        <div class="mt-8">
-            {{ $plats->links() }}
-        </div>
-    @else
-        <p class="text-center text-gray-500">Aucun plat disponible pour le moment.</p>
-    @endif
-
-</div>
+</main>
 
 <!-- FOOTER -->
 <footer class="border-t border-gray-800 py-12 text-center">
-
     <h3 class="text-2xl font-bold tracking-wide">
-        Chrystal<span class="text-blue-500">-Club</span>
+        Le Crystal<span class="text-blue-500">-Club</span>
     </h3>
 
     <p class="text-gray-400 text-sm mt-2">
@@ -204,7 +215,7 @@
     </p>
 
     <p class="mt-6 text-gray-500 text-xs">
-        © {{ date('Y') }} Chrystal-Club — Tous droits réservés
+        © {{ date('Y') }} Le Crystal-Club — Tous droits réservés
     </p>
 </footer>
 

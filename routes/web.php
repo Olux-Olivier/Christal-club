@@ -35,7 +35,10 @@ Route::post('/boissons/store', [BoissonController::class, 'store'])->name('boiss
 Route::get('/boissonsResto/create', [BoissonsRestoController::class, 'create'])->name('boissonsResto.create');
 Route::post('/boissonsResto/store', [BoissonsRestoController::class, 'store'])->name('boissonsResto.store');
 
-
+Route::put('/boissonsResto/{boisson}', [BoissonsRestoController::class, 'update'])
+    ->name('boissonsResto.update');
+Route::get('/menus/boissonsResto/alcool', [BoissonsRestoController::class, 'alcool'])->name('menus.boissonsResto.alcool');
+Route::get('/menus/boissonsResto/sucree', [BoissonsRestoController::class, 'sucree'])->name('menus.boissonsResto.sucree');
 
 
 Route::get('/menus/plats/plat', [PlatController::class, 'plats'])->name('menus.plats.plat');

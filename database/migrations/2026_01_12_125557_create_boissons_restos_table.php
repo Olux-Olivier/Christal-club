@@ -18,13 +18,10 @@ return new class extends Migration
             $table->decimal('prix', 8, 2);
             $table->enum('categorie', ['alcoolisee', 'sucree']);
             $table->string('image');
+            $table->string('thumbnail')->nullable()->after('image');
             $table->timestamps();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('boissons_restos');
