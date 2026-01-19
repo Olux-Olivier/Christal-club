@@ -86,10 +86,10 @@
 <header class="border-b border-gray-800">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <h1 class="text-xl font-bold tracking-wider">
-            Le Crystal<span class="text-blue-500">-Club</span>
+            Le Crystal<span class="text-blue-500">-Restaurant</span>
         </h1>
 
-        <a href="{{ route('welcome') }}"
+        <a href="{{ route('choixespace') }}"
            class="px-4 py-2 rounded-lg bg-gray-800 border border-gray-700
                   hover:bg-gray-700 transition text-sm font-semibold">
             Retour
@@ -115,7 +115,7 @@
                     Boissons sucrées
                 </h2>
                 <p class="text-gray-400 text-sm mt-1">
-                    Sélection visuelle du Chrystal-Club
+                    Sélection visuelle du Chrystal-Restaurant
                 </p>
             </div>
         </div>

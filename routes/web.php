@@ -11,6 +11,10 @@ Route::get('/', function () {
     return view('welcome_splash');
 })->name('welcome');
 
+Route::get('/choixesapce', function () {
+    return view('choix');
+})->name('choixespace');
+
 Route::get('/menu/plats', function () {
     return view('menus.plats');
 })->name('plats');
