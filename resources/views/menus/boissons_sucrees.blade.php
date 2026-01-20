@@ -138,13 +138,13 @@
                 Alcoolisées
             </a>
 
-            <a href="{{ route('menus.plats.plat') }}"
+            {{-- <a href="{{ route('menus.plats.plat') }}"
                class="px-5 py-2 rounded-xl bg-gradient-to-r
                       from-blue-600 to-indigo-600
                       hover:from-indigo-600 hover:to-blue-600
                       transition font-semibold">
                 Menu restaurant
-            </a>
+            </a> --}}
         </div>
 
     </div>

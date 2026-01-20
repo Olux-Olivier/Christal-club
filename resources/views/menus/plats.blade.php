@@ -53,7 +53,7 @@
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 
         <h1 class="text-xl font-bold tracking-wider">
-            Le Crystal<span class="text-blue-500">-Restaurant</span>
+            Le Crystal<span class="text-blue-500">-Snack Bar</span>
         </h1>
 
         <a href="{{ route('welcome') }}"
@@ -106,11 +106,11 @@
                     : 'bg-gray-800 border-gray-700 hover:bg-gray-700' }}">
                 Plats
             </a>
-            <a href="{{ route('menus.boissons.sucree') }}"
+            {{-- <a href="{{ route('menus.boissons.sucree') }}"
                class="px-5 py-2 rounded-xl font-semibold border
                       bg-gray-800 border-gray-700 hover:bg-gray-700 transition">
                 Menu club
-            </a>
+            </a> --}}
         </div>
 
     </div>
